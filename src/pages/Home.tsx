@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { BsFlower1, BsShieldCheck, BsTruck, BsHeadset, BsStar, BsArrowRight } from 'react-icons/bs'
-import { supabase, type Product, type Banner } from '../lib/supabase'
+import { supabase, type Product, type Banner, type Stat } from '../lib/supabase'
 import ScrollReveal from '../components/ScrollReveal'
 import TextReveal from '../components/TextReveal'
 import MagneticButton from '../components/MagneticButton'
@@ -33,16 +33,10 @@ const features = [
   },
 ]
 
-const stats = [
-  { label: 'Happy Customers', value: 5000, suffix: '+' },
-  { label: 'Products', value: 200, suffix: '+' },
-  { label: 'Brands', value: 50, suffix: '+' },
-  { label: 'Years', value: 5, suffix: '+' },
-]
-
 export default function Home() {
   const [banners, setBanners] = useState<Banner[]>([])
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
+  const [stats, setStats] = useState<Stat[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -51,12 +45,14 @@ export default function Home() {
 
   async function fetchData() {
     try {
-      const [bannerRes, productRes] = await Promise.all([
+      const [bannerRes, productRes, statsRes] = await Promise.all([
         supabase.from('banners').select('*').eq('is_active', true).order('display_order'),
         supabase.from('products').select('*').eq('is_active', true).order('created_at', { ascending: false }).limit(6),
+        supabase.from('stats').select('*').eq('is_active', true).order('display_order'),
       ])
       if (bannerRes.data) setBanners(bannerRes.data)
       if (productRes.data) setFeaturedProducts(productRes.data)
+      if (statsRes.data) setStats(statsRes.data)
     } catch (error) {
       console.error('Error fetching data:', error)
     } finally {
@@ -116,11 +112,12 @@ export default function Home() {
       </section>
 
       {/* Stats */}
+      {stats.length > 0 && (
       <section className="py-16 bg-gray-50 dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, i) => (
-              <ScrollReveal key={i} animation="scale-up" delay={i * 100}>
+              <ScrollReveal key={stat.id} animation="scale-up" delay={i * 100}>
                 <div className="text-center">
                   <div className="text-4xl md:text-5xl font-bold font-display text-emerald-600 dark:text-emerald-400 mb-2">
                     <AnimatedCounter to={stat.value} suffix={stat.suffix} duration={2000 + i * 300} />
@@ -132,6 +129,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      )}
 
       {/* Features */}
       <section className="py-20 bg-gray-50 dark:bg-slate-900">

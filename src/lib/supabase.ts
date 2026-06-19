@@ -66,3 +66,13 @@ export interface Banner {
   is_active: boolean
   created_at: string
 }
+
+export interface Stat {
+  id: string
+  label: string
+  value: number
+  suffix: string
+  display_order: number
+  is_active: boolean
+  created_at: string
+}

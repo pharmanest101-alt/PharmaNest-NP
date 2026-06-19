@@ -2,13 +2,14 @@ import { useState, useEffect } from 'react'
 import { Link, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { BsGrid, BsPeople, BsGear, BsEnvelope, BsImage, BsBox, BsPlus, BsPencil, BsTrash, BsArrowLeft, BsCheck, BsX, BsEye, BsEyeSlash } from 'react-icons/bs'
-import { supabaseAdmin as supabase, type Product, type TeamMember, type SiteSetting, type Message, type Banner } from '../lib/supabase'
+import { supabaseAdmin as supabase, type Product, type TeamMember, type SiteSetting, type Message, type Banner, type Stat } from '../lib/supabase'
 
 const sidebarLinks = [
   { name: 'Dashboard', icon: BsGrid, path: '/admin' },
   { name: 'Products', icon: BsBox, path: '/admin/products' },
   { name: 'Team', icon: BsPeople, path: '/admin/team' },
   { name: 'Banners', icon: BsImage, path: '/admin/banners' },
+  { name: 'Stats', icon: BsGrid, path: '/admin/stats' },
   { name: 'Messages', icon: BsEnvelope, path: '/admin/messages' },
   { name: 'Settings', icon: BsGear, path: '/admin/settings' },
 ]
@@ -457,6 +458,130 @@ function BannerForm({ banner, onSave, onCancel }: { banner: Banner | null; onSav
   )
 }
 
+function StatsAdmin() {
+  const [stats, setStats] = useState<Stat[]>([])
+  const [loading, setLoading] = useState(true)
+  const [editingStat, setEditingStat] = useState<Stat | null>(null)
+  const [showForm, setShowForm] = useState(false)
+
+  useEffect(() => { fetchStats() }, [])
+
+  async function fetchStats() {
+    const { data } = await supabase.from('stats').select('*').order('display_order')
+    setStats(data || [])
+    setLoading(false)
+  }
+
+  async function handleSave(stat: Partial<Stat>) {
+    if (editingStat?.id) {
+      await supabase.from('stats').update(stat).eq('id', editingStat.id)
+      toast.success('Stat updated!')
+    } else {
+      await supabase.from('stats').insert([stat])
+      toast.success('Stat added!')
+    }
+    setShowForm(false)
+    setEditingStat(null)
+    fetchStats()
+  }
+
+  async function handleDelete(id: string) {
+    if (!confirm('Delete this stat?')) return
+    await supabase.from('stats').delete().eq('id', id)
+    toast.success('Stat deleted!')
+    fetchStats()
+  }
+
+  async function toggleActive(id: string, current: boolean) {
+    await supabase.from('stats').update({ is_active: !current }).eq('id', id)
+    fetchStats()
+  }
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Stats</h2>
+        <button onClick={() => { setEditingStat(null); setShowForm(true) }} className="btn-primary inline-flex items-center gap-2">
+          <BsPlus /> Add Stat
+        </button>
+      </div>
+
+      {showForm && (
+        <StatForm stat={editingStat} onSave={handleSave} onCancel={() => { setShowForm(false); setEditingStat(null) }} />
+      )}
+
+      {loading ? (
+        <div className="text-center py-10"><div className="animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full mx-auto" /></div>
+      ) : (
+        <div className="card overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="bg-gray-50 dark:bg-slate-800">
+                <tr>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Label</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Value</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Suffix</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Order</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Active</th>
+                  <th className="text-right px-4 py-3 font-medium text-gray-500">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
+                {stats.map((stat) => (
+                  <tr key={stat.id} className="hover:bg-gray-50 dark:hover:bg-slate-800/50">
+                    <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{stat.label}</td>
+                    <td className="px-4 py-3 text-emerald-600 font-medium">{stat.value}</td>
+                    <td className="px-4 py-3 text-gray-600 dark:text-gray-400">{stat.suffix}</td>
+                    <td className="px-4 py-3 text-gray-500">{stat.display_order}</td>
+                    <td className="px-4 py-3">
+                      <button onClick={() => toggleActive(stat.id, stat.is_active)} className={`p-1 rounded ${stat.is_active ? 'text-green-600' : 'text-gray-400'}`}>
+                        {stat.is_active ? <BsEye /> : <BsEyeSlash />}
+                      </button>
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <div className="flex gap-2 justify-end">
+                        <button onClick={() => { setEditingStat(stat); setShowForm(true) }} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg transition-colors text-blue-600"><BsPencil /></button>
+                        <button onClick={() => handleDelete(stat.id)} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg transition-colors text-red-600"><BsTrash /></button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {stats.length === 0 && <p className="text-center py-10 text-gray-500">No stats yet. Add your first stat!</p>}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function StatForm({ stat, onSave, onCancel }: { stat: Stat | null; onSave: (s: Partial<Stat>) => void; onCancel: () => void }) {
+  const [form, setForm] = useState({
+    label: stat?.label || '',
+    value: stat?.value || 0,
+    suffix: stat?.suffix || '',
+    display_order: stat?.display_order || 0,
+    is_active: stat?.is_active ?? true,
+  })
+
+  return (
+    <div className="card p-6 mb-6">
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{stat ? 'Edit Stat' : 'Add Stat'}</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <input placeholder="Label (e.g. Happy Customers)" value={form.label} onChange={(e) => setForm({ ...form, label: e.target.value })} className="input-field" />
+        <input type="number" placeholder="Value (e.g. 5000)" value={form.value} onChange={(e) => setForm({ ...form, value: Number(e.target.value) })} className="input-field" />
+        <input placeholder="Suffix (e.g. +)" value={form.suffix} onChange={(e) => setForm({ ...form, suffix: e.target.value })} className="input-field" />
+        <input type="number" placeholder="Display Order" value={form.display_order} onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })} className="input-field" />
+      </div>
+      <div className="flex gap-3 mt-4">
+        <button onClick={() => onSave(form)} className="btn-primary inline-flex items-center gap-2"><BsCheck /> Save</button>
+        <button onClick={onCancel} className="btn-secondary inline-flex items-center gap-2"><BsX /> Cancel</button>
+      </div>
+    </div>
+  )
+}
+
 function MessagesAdmin() {
   const [messages, setMessages] = useState<Message[]>([])
   const [loading, setLoading] = useState(true)
@@ -672,6 +797,7 @@ export default function Admin() {
           <Route path="/products" element={<ProductsAdmin />} />
           <Route path="/team" element={<TeamAdmin />} />
           <Route path="/banners" element={<BannersAdmin />} />
+          <Route path="/stats" element={<StatsAdmin />} />
           <Route path="/messages" element={<MessagesAdmin />} />
           <Route path="/settings" element={<SettingsAdmin />} />
         </Routes>
