@@ -120,7 +120,7 @@ export default function About() {
                 Located at the beautiful Devi's Fall area in Pokhara-17. Come experience personalized skincare consultation.
               </p>
               <div className="inline-flex flex-col sm:flex-row gap-4">
-                <MagneticButton as="a" href="https://maps.google.com/?q=Devi's+Fall+Pokhara+17" className="bg-white text-emerald-700 hover:bg-emerald-50 font-semibold px-8 py-3 rounded-lg transition-all shadow-lg apple-press">
+                <MagneticButton as="a" href="https://www.google.com/maps/place/PharmaNest+Skin+Care+%7C+Baby+Care/@28.1902873,83.9552205,17z/data=!3m1!4b1!4m6!3m5!1s0x399595d83afaf09f:0xe9cd9f1b0e0252da!8m2!3d28.1902826!4d83.9577954!16s%2Fg%2F11z4754zb4?entry=ttu&g_ep=EgoyMDI2MDYxNi4wIKXMDSoASAFQAw%3D%3D" className="bg-white text-emerald-700 hover:bg-emerald-50 font-semibold px-8 py-3 rounded-lg transition-all shadow-lg apple-press">
                   Get Directions
                 </MagneticButton>
                 <MagneticButton as="a" href="tel:+9779865489647" className="border-2 border-white text-white hover:bg-white/10 font-semibold px-8 py-3 rounded-lg transition-all apple-press">
