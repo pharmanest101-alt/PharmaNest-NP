@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import toast from 'react-hot-toast'
-import { BsFlower1, BsGrid, BsPeople, BsGear, BsEnvelope, BsImage, BsBox, BsPlus, BsPencil, BsTrash, BsArrowLeft, BsCheck, BsX, BsEye, BsEyeSlash } from 'react-icons/bs'
+import { BsGrid, BsPeople, BsGear, BsEnvelope, BsImage, BsBox, BsPlus, BsPencil, BsTrash, BsArrowLeft, BsCheck, BsX, BsEye, BsEyeSlash } from 'react-icons/bs'
 import { supabaseAdmin as supabase, type Product, type TeamMember, type SiteSetting, type Message, type Banner } from '../lib/supabase'
 
 const sidebarLinks = [
@@ -36,9 +36,7 @@ function AdminLogin({ onLogin }: { onLogin: () => void }) {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center">
-              <BsFlower1 className="text-white text-2xl" />
-            </div>
+            <img src="/logo.jpg" alt="PharmaNest" className="h-14 w-auto rounded-xl" />
           </Link>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Admin Panel</h1>
           <p className="text-gray-500 mt-1">PharmaNest Management</p>
@@ -634,9 +632,7 @@ export default function Admin() {
       <aside className="w-64 bg-white dark:bg-slate-900 border-r border-gray-200 dark:border-slate-800 flex flex-col fixed h-full z-30">
         <div className="p-6 border-b border-gray-100 dark:border-slate-800">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center">
-              <BsFlower1 className="text-white" />
-            </div>
+            <img src="/logo.jpg" alt="PharmaNest" className="h-9 w-auto rounded-lg" />
             <div>
               <span className="font-bold text-gray-900 dark:text-white text-sm">PharmaNest</span>
               <span className="block text-xs text-gray-500">Admin Panel</span>

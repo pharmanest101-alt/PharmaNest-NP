@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { FiMenu, FiX } from 'react-icons/fi'
-import { BsFlower1 } from 'react-icons/bs'
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -37,14 +36,10 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-emerald-500/30 transition-shadow">
-              <BsFlower1 className="text-white text-xl" />
-            </div>
-            <div>
-              <span className="text-xl font-bold font-display bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                PharmaNest
-              </span>
-            </div>
+            <img src="/logo.jpg" alt="PharmaNest" className="h-10 w-auto rounded-lg" />
+            <span className="text-xl font-bold font-display bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+              PharmaNest
+            </span>
           </Link>
 
           {/* Desktop Nav */}
