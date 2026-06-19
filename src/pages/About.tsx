@@ -36,11 +36,9 @@ export default function About() {
       <section className="pt-32 pb-20 bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-slate-950 dark:via-slate-900 dark:to-emerald-950/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <TextReveal
-              text="About PharmaNest"
-              tag="h1"
-              className="text-4xl md:text-5xl font-bold font-display text-gray-900 dark:text-white mb-4"
-            />
+            <h1 className="text-4xl md:text-5xl font-bold font-display text-gray-900 dark:text-white mb-4 animate-fade-in-up">
+              About <span className="text-blue-700 dark:text-blue-400">PharmaNest</span>
+            </h1>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
               Your trusted skincare pharmacy in Pokhara, Nepal
             </p>
