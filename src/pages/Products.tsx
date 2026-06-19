@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { BsFlower1, BsSearch, BsGrid, BsList } from 'react-icons/bs'
 import { supabase, type Product } from '../lib/supabase'
+import ScrollReveal from '../components/ScrollReveal'
 
 const categories = ['All', 'Cleanser', 'Moisturizer', 'Serum', 'Sunscreen', 'Toner', 'Mask', 'Treatment', 'Other']
 
@@ -69,56 +70,58 @@ export default function Products() {
       </section>
 
       {/* Filters */}
-      <section className="py-8 sticky top-20 z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-gray-100 dark:border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-            {/* Search */}
-            <div className="relative w-full md:w-80">
-              <BsSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="input-field pl-10"
-              />
-            </div>
+      <ScrollReveal animation="fade-down" threshold={0.01}>
+        <section className="py-8 sticky top-20 z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-gray-100 dark:border-slate-800">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+              {/* Search */}
+              <div className="relative w-full md:w-80">
+                <BsSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="input-field pl-10"
+                />
+              </div>
 
-            {/* Categories */}
-            <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto">
-              {categories.map((cat) => (
+              {/* Categories */}
+              <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
+                      activeCategory === cat
+                        ? 'bg-emerald-600 text-white shadow-lg'
+                        : 'bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+
+              {/* View Toggle */}
+              <div className="hidden md:flex gap-1 bg-gray-100 dark:bg-slate-800 rounded-lg p-1">
                 <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
-                    activeCategory === cat
-                      ? 'bg-emerald-600 text-white shadow-lg'
-                      : 'bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700'
-                  }`}
+                  onClick={() => setViewMode('grid')}
+                  className={`p-2 rounded-md transition-colors ${viewMode === 'grid' ? 'bg-white dark:bg-slate-700 shadow' : ''}`}
                 >
-                  {cat}
+                  <BsGrid className="text-gray-600 dark:text-gray-300" />
                 </button>
-              ))}
-            </div>
-
-            {/* View Toggle */}
-            <div className="hidden md:flex gap-1 bg-gray-100 dark:bg-slate-800 rounded-lg p-1">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`p-2 rounded-md transition-colors ${viewMode === 'grid' ? 'bg-white dark:bg-slate-700 shadow' : ''}`}
-              >
-                <BsGrid className="text-gray-600 dark:text-gray-300" />
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`p-2 rounded-md transition-colors ${viewMode === 'list' ? 'bg-white dark:bg-slate-700 shadow' : ''}`}
-              >
-                <BsList className="text-gray-600 dark:text-gray-300" />
-              </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`p-2 rounded-md transition-colors ${viewMode === 'list' ? 'bg-white dark:bg-slate-700 shadow' : ''}`}
+                >
+                  <BsList className="text-gray-600 dark:text-gray-300" />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </ScrollReveal>
 
       {/* Products */}
       <section className="py-12">
@@ -136,39 +139,44 @@ export default function Products() {
             </div>
           ) : (
             <div className={viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8' : 'space-y-6'}>
-              {filteredProducts.map((product) => (
-                <div
+              {filteredProducts.map((product, i) => (
+                <ScrollReveal
                   key={product.id}
-                  className={viewMode === 'grid' ? 'card group' : 'card group flex flex-col md:flex-row'}
+                  animation={viewMode === 'grid' ? 'scale-up' : 'fade-left'}
+                  delay={Math.min(i * 80, 400)}
                 >
-                  <div className={`${viewMode === 'grid' ? 'aspect-square' : 'w-full md:w-64 aspect-square md:aspect-auto'} bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-slate-800 dark:to-slate-700 flex items-center justify-center overflow-hidden flex-shrink-0`}>
-                    {product.image_url ? (
-                      <img src={product.image_url} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    ) : (
-                      <BsFlower1 className="text-6xl text-emerald-300 dark:text-emerald-600" />
-                    )}
-                  </div>
-                  <div className="p-6 flex-1">
-                    <div className="flex items-start justify-between gap-2 mb-2">
-                      <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium uppercase tracking-wider">{product.category}</p>
-                      <span className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ${product.stock > 0 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
-                        {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
-                      </span>
+                  <div
+                    className={viewMode === 'grid' ? 'card group h-full' : 'card group flex flex-col md:flex-row h-full'}
+                  >
+                    <div className={`${viewMode === 'grid' ? 'aspect-square' : 'w-full md:w-64 aspect-square md:aspect-auto'} bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-slate-800 dark:to-slate-700 flex items-center justify-center overflow-hidden flex-shrink-0`}>
+                      {product.image_url ? (
+                        <img src={product.image_url} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      ) : (
+                        <BsFlower1 className="text-6xl text-emerald-300 dark:text-emerald-600" />
+                      )}
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{product.name}</h3>
-                    {product.description && (
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{product.description}</p>
-                    )}
-                    <div className="flex items-center justify-between">
-                      <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
-                        NPR {product.price.toLocaleString()}
-                      </span>
-                      <button className="btn-primary text-sm">
-                        Enquire
-                      </button>
+                    <div className="p-6 flex-1">
+                      <div className="flex items-start justify-between gap-2 mb-2">
+                        <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium uppercase tracking-wider">{product.category}</p>
+                        <span className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ${product.stock > 0 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
+                          {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
+                        </span>
+                      </div>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{product.name}</h3>
+                      {product.description && (
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{product.description}</p>
+                      )}
+                      <div className="flex items-center justify-between">
+                        <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+                          NPR {product.price.toLocaleString()}
+                        </span>
+                        <button className="btn-primary text-sm">
+                          Enquire
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </ScrollReveal>
               ))}
             </div>
           )}

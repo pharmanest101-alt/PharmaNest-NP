@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { BsFlower1, BsEnvelope, BsTelephone } from 'react-icons/bs'
 import { supabase, type TeamMember } from '../lib/supabase'
+import ScrollReveal from '../components/ScrollReveal'
 
 const defaultMembers: TeamMember[] = [
   {
@@ -70,37 +71,39 @@ export default function Team() {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {members.map((member) => (
-                <div key={member.id} className="card group text-center">
-                  <div className="aspect-square bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-slate-800 dark:to-slate-700 flex items-center justify-center overflow-hidden">
-                    {member.image_url ? (
-                      <img src={member.image_url} alt={member.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    ) : (
-                      <div className="w-32 h-32 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center">
-                        <BsFlower1 className="text-5xl text-emerald-300 dark:text-emerald-600" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-8">
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">{member.name}</h3>
-                    <p className="text-emerald-600 dark:text-emerald-400 font-medium mb-4">{member.role}</p>
-                    {member.bio && (
-                      <p className="text-gray-600 dark:text-gray-400 text-sm mb-5">{member.bio}</p>
-                    )}
-                    <div className="flex justify-center gap-3">
-                      {member.email && (
-                        <a href={`mailto:${member.email}`} className="w-10 h-10 bg-gray-100 dark:bg-slate-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 rounded-lg flex items-center justify-center transition-colors">
-                          <BsEnvelope className="text-emerald-600 dark:text-emerald-400" />
-                        </a>
-                      )}
-                      {member.phone && (
-                        <a href={`tel:${member.phone}`} className="w-10 h-10 bg-gray-100 dark:bg-slate-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 rounded-lg flex items-center justify-center transition-colors">
-                          <BsTelephone className="text-emerald-600 dark:text-emerald-400" />
-                        </a>
+              {members.map((member, i) => (
+                <ScrollReveal key={member.id} animation="rotate-in" delay={i * 150}>
+                  <div className="card group text-center h-full">
+                    <div className="aspect-square bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-slate-800 dark:to-slate-700 flex items-center justify-center overflow-hidden">
+                      {member.image_url ? (
+                        <img src={member.image_url} alt={member.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      ) : (
+                        <div className="w-32 h-32 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center">
+                          <BsFlower1 className="text-5xl text-emerald-300 dark:text-emerald-600" />
+                        </div>
                       )}
                     </div>
+                    <div className="p-8">
+                      <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">{member.name}</h3>
+                      <p className="text-emerald-600 dark:text-emerald-400 font-medium mb-4">{member.role}</p>
+                      {member.bio && (
+                        <p className="text-gray-600 dark:text-gray-400 text-sm mb-5">{member.bio}</p>
+                      )}
+                      <div className="flex justify-center gap-3">
+                        {member.email && (
+                          <a href={`mailto:${member.email}`} className="w-10 h-10 bg-gray-100 dark:bg-slate-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 rounded-lg flex items-center justify-center transition-colors">
+                            <BsEnvelope className="text-emerald-600 dark:text-emerald-400" />
+                          </a>
+                        )}
+                        {member.phone && (
+                          <a href={`tel:${member.phone}`} className="w-10 h-10 bg-gray-100 dark:bg-slate-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 rounded-lg flex items-center justify-center transition-colors">
+                            <BsTelephone className="text-emerald-600 dark:text-emerald-400" />
+                          </a>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </ScrollReveal>
               ))}
             </div>
           )}

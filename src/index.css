@@ -45,16 +45,9 @@
 
 /* Animations */
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-
 .animate-fade-in-up {
   animation: fadeInUp 0.6s ease-out forwards;
 }
@@ -63,7 +56,143 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 }
-
 .animate-float {
   animation: float 3s ease-in-out infinite;
+}
+
+/* ============================
+   Scroll Reveal Animations
+   ============================ */
+
+/* Base: hidden state for all scroll elements */
+[class^="scroll-"] {
+  opacity: 0;
+  transition-property: opacity, transform, filter, box-shadow;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform, filter;
+}
+
+/* Visible state */
+[class^="scroll-"].is-visible {
+  opacity: 1;
+  transform: none !important;
+  filter: blur(0) !important;
+}
+
+/* --- Fade directions --- */
+.scroll-fade-up {
+  transform: translateY(60px);
+}
+.scroll-fade-up.is-visible { transform: translateY(0); }
+
+.scroll-fade-down {
+  transform: translateY(-60px);
+}
+.scroll-fade-down.is-visible { transform: translateY(0); }
+
+.scroll-fade-left {
+  transform: translateX(80px);
+}
+.scroll-fade-left.is-visible { transform: translateX(0); }
+
+.scroll-fade-right {
+  transform: translateX(-80px);
+}
+.scroll-fade-right.is-visible { transform: translateX(0); }
+
+/* --- Scale --- */
+.scroll-scale-up {
+  transform: scale(0.85);
+}
+.scroll-scale-up.is-visible { transform: scale(1); }
+
+.scroll-scale-down {
+  transform: scale(1.15);
+}
+.scroll-scale-down.is-visible { transform: scale(1); }
+
+/* --- Rotate --- */
+.scroll-rotate-in {
+  transform: rotate(-8deg) scale(0.9);
+}
+.scroll-rotate-in.is-visible { transform: rotate(0) scale(1); }
+
+/* --- Flip --- */
+.scroll-flip-up {
+  transform: perspective(800px) rotateX(25deg) translateY(40px);
+}
+.scroll-flip-up.is-visible { transform: perspective(800px) rotateX(0) translateY(0); }
+
+.scroll-flip-left {
+  transform: perspective(800px) rotateY(-25deg) translateX(40px);
+}
+.scroll-flip-left.is-visible { transform: perspective(800px) rotateY(0) translateX(0); }
+
+/* --- Blur --- */
+.scroll-blur-in {
+  filter: blur(12px);
+  transform: scale(1.05);
+}
+.scroll-blur-in.is-visible { filter: blur(0); transform: scale(1); }
+
+/* --- Big slides --- */
+.scroll-slide-up-big {
+  transform: translateY(120px);
+}
+.scroll-slide-up-big.is-visible { transform: translateY(0); }
+
+.scroll-slide-down-big {
+  transform: translateY(-120px);
+}
+.scroll-slide-down-big.is-visible { transform: translateY(0); }
+
+/* --- Zoom --- */
+.scroll-zoom-in {
+  transform: scale(0.5);
+  opacity: 0;
+}
+.scroll-zoom-in.is-visible { transform: scale(1); opacity: 1; }
+
+.scroll-zoom-out {
+  transform: scale(1.5);
+  opacity: 0;
+}
+.scroll-zoom-out.is-visible { transform: scale(1); opacity: 1; }
+
+/* --- Bounce --- */
+.scroll-bounce-in {
+  transform: scale(0.3);
+  opacity: 0;
+}
+.scroll-bounce-in.is-visible {
+  transform: scale(1);
+  opacity: 1;
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* --- Swing --- */
+.scroll-swing-in {
+  transform: rotate(-12deg) translateX(-30px);
+  transform-origin: top center;
+}
+.scroll-swing-in.is-visible { transform: rotate(0) translateX(0); }
+
+/* --- Pulse --- */
+.scroll-pulse-in {
+  transform: scale(0.9);
+}
+.scroll-pulse-in.is-visible {
+  transform: scale(1);
+  animation: scrollPulse 0.6s ease-out;
+}
+
+@keyframes scrollPulse {
+  0% { transform: scale(0.9); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* --- Stagger helper: children with data-delay attribute --- */
+[data-stagger] > [class^="scroll-"] {
+  transition-delay: calc(var(--stagger-index, 0) * 120ms);
 }

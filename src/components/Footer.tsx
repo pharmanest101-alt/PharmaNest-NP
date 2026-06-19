@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { BsFacebook, BsInstagram, BsTelephone, BsEnvelope, BsGeoAlt } from 'react-icons/bs'
+import ScrollReveal from './ScrollReveal'
 
 export default function Footer() {
   return (
@@ -7,7 +8,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand */}
-          <div className="md:col-span-2">
+          <ScrollReveal animation="fade-up" className="md:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4">
               <img src="/logo.jpg" alt="PharmaNest" className="h-10 w-auto rounded-lg" />
               <span className="text-xl font-bold font-display text-white">PharmaNest</span>
@@ -23,10 +24,10 @@ export default function Footer() {
                 <BsInstagram />
               </a>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Quick Links */}
-          <div>
+          <ScrollReveal animation="fade-up" delay={100}>
             <h3 className="text-white font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               {[
@@ -42,10 +43,10 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </ScrollReveal>
 
           {/* Contact */}
-          <div>
+          <ScrollReveal animation="fade-up" delay={200}>
             <h3 className="text-white font-semibold mb-4">Contact Us</h3>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
@@ -61,12 +62,14 @@ export default function Footer() {
                 <span>pharmanest101@gmail.com</span>
               </li>
             </ul>
-          </div>
+          </ScrollReveal>
         </div>
 
-        <div className="border-t border-slate-800 mt-12 pt-8 text-center text-sm text-gray-500">
-          <p>&copy; {new Date().getFullYear()} PharmaNest. All rights reserved.</p>
-        </div>
+        <ScrollReveal animation="fade-up" delay={300}>
+          <div className="border-t border-slate-800 mt-12 pt-8 text-center text-sm text-gray-500">
+            <p>&copy; {new Date().getFullYear()} PharmaNest. All rights reserved.</p>
+          </div>
+        </ScrollReveal>
       </div>
     </footer>
   )
