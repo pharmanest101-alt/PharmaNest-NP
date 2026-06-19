@@ -11,7 +11,7 @@ export default function Footer() {
           <ScrollReveal animation="fade-up" className="md:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4">
               <img src="/logo.jpg" alt="PharmaNest" className="h-10 w-auto rounded-lg" />
-              <span className="text-xl font-bold font-display text-blue-400">PharmaNest</span>
+              <span className="text-xl font-bold font-display text-blue-300">PharmaNest</span>
             </Link>
             <p className="text-gray-400 max-w-sm mb-6">
               Your trusted skincare pharmacy in the heart of Pokhara. We provide premium skincare products and expert consultations to help you achieve healthy, glowing skin.

@@ -37,7 +37,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <img src="/logo.jpg" alt="PharmaNest" className="h-10 w-auto rounded-lg" />
-            <span className="text-xl font-bold font-display text-blue-700 dark:text-blue-400">
+            <span className="text-xl font-bold font-display text-blue-950 dark:text-blue-300">
               PharmaNest
             </span>
           </Link>

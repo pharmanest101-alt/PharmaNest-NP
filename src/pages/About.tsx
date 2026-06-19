@@ -37,7 +37,7 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold font-display text-gray-900 dark:text-white mb-4 animate-fade-in-up">
-              About <span className="text-blue-700 dark:text-blue-400">PharmaNest</span>
+              About <span className="text-blue-950 dark:text-blue-300">PharmaNest</span>
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
               Your trusted skincare pharmacy in Pokhara, Nepal
