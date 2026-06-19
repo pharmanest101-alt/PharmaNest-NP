@@ -59,12 +59,8 @@ export default function About() {
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-square bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-3xl flex items-center justify-center">
-                <BsFlower1 className="text-[120px] text-emerald-300 dark:text-emerald-700" />
-              </div>
-              <div className="absolute -bottom-6 -right-6 bg-emerald-600 text-white px-6 py-3 rounded-2xl shadow-xl">
-                <span className="font-bold text-2xl">5+</span>
-                <span className="text-sm block">Years Serving Pokhara</span>
+              <div className="aspect-square bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-3xl flex items-center justify-center overflow-hidden">
+                <img src="/logo.jpg" alt="PharmaNest Logo" className="w-full h-full object-cover" />
               </div>
             </div>
           </div>
