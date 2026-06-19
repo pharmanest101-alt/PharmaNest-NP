@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { BsFlower1, BsSearch, BsGrid, BsList } from 'react-icons/bs'
 import { supabase, type Product } from '../lib/supabase'
 import ScrollReveal from '../components/ScrollReveal'
+import TextReveal from '../components/TextReveal'
+import TiltCard from '../components/TiltCard'
 
 const categories = ['All', 'Cleanser', 'Moisturizer', 'Serum', 'Sunscreen', 'Toner', 'Mask', 'Treatment', 'Other']
 
@@ -58,11 +60,13 @@ export default function Products() {
       {/* Hero */}
       <section className="pt-32 pb-10 bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-slate-950 dark:via-slate-900 dark:to-emerald-950/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center animate-fade-in-up">
-            <h1 className="text-4xl md:text-5xl font-bold font-display text-gray-900 dark:text-white mb-4">
-              Our <span className="text-emerald-600">Products</span>
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          <div className="text-center">
+            <TextReveal
+              text="Our Products"
+              tag="h1"
+              className="text-4xl md:text-5xl font-bold font-display text-gray-900 dark:text-white mb-4"
+            />
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
               Premium skincare products curated for every skin type
             </p>
           </div>
@@ -92,7 +96,7 @@ export default function Products() {
                   <button
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
+                    className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-300 apple-press ${
                       activeCategory === cat
                         ? 'bg-emerald-600 text-white shadow-lg'
                         : 'bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700'
@@ -107,13 +111,13 @@ export default function Products() {
               <div className="hidden md:flex gap-1 bg-gray-100 dark:bg-slate-800 rounded-lg p-1">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded-md transition-colors ${viewMode === 'grid' ? 'bg-white dark:bg-slate-700 shadow' : ''}`}
+                  className={`p-2 rounded-md transition-all duration-300 ${viewMode === 'grid' ? 'bg-white dark:bg-slate-700 shadow' : ''}`}
                 >
                   <BsGrid className="text-gray-600 dark:text-gray-300" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`p-2 rounded-md transition-colors ${viewMode === 'list' ? 'bg-white dark:bg-slate-700 shadow' : ''}`}
+                  className={`p-2 rounded-md transition-all duration-300 ${viewMode === 'list' ? 'bg-white dark:bg-slate-700 shadow' : ''}`}
                 >
                   <BsList className="text-gray-600 dark:text-gray-300" />
                 </button>
@@ -145,37 +149,39 @@ export default function Products() {
                   animation={viewMode === 'grid' ? 'scale-up' : 'fade-left'}
                   delay={Math.min(i * 80, 400)}
                 >
-                  <div
-                    className={viewMode === 'grid' ? 'card group h-full' : 'card group flex flex-col md:flex-row h-full'}
-                  >
-                    <div className={`${viewMode === 'grid' ? 'aspect-square' : 'w-full md:w-64 aspect-square md:aspect-auto'} bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-slate-800 dark:to-slate-700 flex items-center justify-center overflow-hidden flex-shrink-0`}>
-                      {product.image_url ? (
-                        <img src={product.image_url} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                      ) : (
-                        <BsFlower1 className="text-6xl text-emerald-300 dark:text-emerald-600" />
-                      )}
-                    </div>
-                    <div className="p-6 flex-1">
-                      <div className="flex items-start justify-between gap-2 mb-2">
-                        <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium uppercase tracking-wider">{product.category}</p>
-                        <span className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ${product.stock > 0 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
-                          {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
-                        </span>
+                  <TiltCard tiltAmount={viewMode === 'grid' ? 8 : 4}>
+                    <div
+                      className={viewMode === 'grid' ? 'card group h-full' : 'card group flex flex-col md:flex-row h-full'}
+                    >
+                      <div className={`${viewMode === 'grid' ? 'aspect-square' : 'w-full md:w-64 aspect-square md:aspect-auto'} bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-slate-800 dark:to-slate-700 flex items-center justify-center overflow-hidden flex-shrink-0`}>
+                        {product.image_url ? (
+                          <img src={product.image_url} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                        ) : (
+                          <BsFlower1 className="text-6xl text-emerald-300 dark:text-emerald-600" />
+                        )}
                       </div>
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{product.name}</h3>
-                      {product.description && (
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{product.description}</p>
-                      )}
-                      <div className="flex items-center justify-between">
-                        <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
-                          NPR {product.price.toLocaleString()}
-                        </span>
-                        <button className="btn-primary text-sm">
-                          Enquire
-                        </button>
+                      <div className="p-6 flex-1">
+                        <div className="flex items-start justify-between gap-2 mb-2">
+                          <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium uppercase tracking-wider">{product.category}</p>
+                          <span className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ${product.stock > 0 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
+                            {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
+                          </span>
+                        </div>
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{product.name}</h3>
+                        {product.description && (
+                          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{product.description}</p>
+                        )}
+                        <div className="flex items-center justify-between">
+                          <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+                            NPR {product.price.toLocaleString()}
+                          </span>
+                          <button className="btn-primary text-sm apple-press">
+                            Enquire
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </TiltCard>
                 </ScrollReveal>
               ))}
             </div>

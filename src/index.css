@@ -196,3 +196,207 @@
 [data-stagger] > [class^="scroll-"] {
   transition-delay: calc(var(--stagger-index, 0) * 120ms);
 }
+
+/* ============================
+   Apple-Style Animations
+   ============================ */
+
+/* --- Text Reveal (word-by-word slide up) --- */
+.apple-text-reveal-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.apple-text-reveal-inner {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.apple-text-reveal-word.is-visible .apple-text-reveal-inner {
+  transform: translateY(0);
+}
+
+/* --- Tilt Card --- */
+.apple-tilt-card {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.apple-tilt-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity 0.6s ease;
+}
+
+/* --- Glow Card --- */
+.apple-glow-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.apple-glow-effect {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.5s ease;
+}
+
+.apple-glow-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Animated Counter --- */
+.apple-counter {
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Hero text stagger (Apple-style big heading) --- */
+.apple-hero-heading {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* --- Smooth scroll behavior --- */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* --- Gradient text shimmer --- */
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.apple-gradient-text {
+  background: linear-gradient(135deg, #059669, #0d9488, #10b981, #14b8a6, #059669);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 4s ease infinite;
+}
+
+/* --- Floating orb animation (improved) --- */
+@keyframes floatOrb {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(10px, -15px) scale(1.05); }
+  50% { transform: translate(-5px, -25px) scale(1); }
+  75% { transform: translate(-15px, -10px) scale(0.95); }
+}
+
+.apple-float-orb {
+  animation: floatOrb 8s ease-in-out infinite;
+}
+
+.apple-float-orb:nth-child(2) {
+  animation-delay: -2s;
+  animation-duration: 10s;
+}
+
+.apple-float-orb:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 12s;
+}
+
+/* --- Shimmer loading effect --- */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.apple-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+/* --- Elastic underline --- */
+.apple-underline {
+  position: relative;
+}
+
+.apple-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: currentColor;
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.apple-underline:hover::after {
+  width: 100%;
+}
+
+/* --- Scale on press (Apple button feel) --- */
+.apple-press {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.apple-press:active {
+  transform: scale(0.95);
+}
+
+/* --- Stagger children animation helper --- */
+.apple-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: appleStaggerIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.apple-stagger > *:nth-child(1) { animation-delay: 0ms; }
+.apple-stagger > *:nth-child(2) { animation-delay: 80ms; }
+.apple-stagger > *:nth-child(3) { animation-delay: 160ms; }
+.apple-stagger > *:nth-child(4) { animation-delay: 240ms; }
+.apple-stagger > *:nth-child(5) { animation-delay: 320ms; }
+.apple-stagger > *:nth-child(6) { animation-delay: 400ms; }
+.apple-stagger > *:nth-child(7) { animation-delay: 480ms; }
+.apple-stagger > *:nth-child(8) { animation-delay: 560ms; }
+.apple-stagger > *:nth-child(9) { animation-delay: 640ms; }
+
+@keyframes appleStaggerIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Line reveal (horizontal line expanding from center) --- */
+.apple-line-reveal {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, currentColor, transparent);
+  transform: scaleX(0);
+  transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.apple-line-reveal.is-visible {
+  transform: scaleX(1);
+}
+
+/* --- Scale reveal (Apple product page style) --- */
+.apple-scale-reveal {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.apple-scale-reveal.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
