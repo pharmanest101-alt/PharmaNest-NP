@@ -110,7 +110,7 @@ export default function About() {
                 Get Directions
               </a>
               <a
-                href="tel:+9779800000000"
+                href="tel:+9779865489647"
                 className="border-2 border-white text-white hover:bg-white/10 font-semibold px-8 py-3 rounded-lg transition-all"
               >
                 Call Us

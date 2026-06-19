@@ -70,8 +70,9 @@ INSERT INTO site_settings (setting_key, setting_value) VALUES
   ('site_tagline', 'Your Trusted Skincare Pharmacy'),
   ('site_description', 'Premium skincare products and expert consultations in Pokhara, Nepal.'),
   ('address', 'Devi''s Fall, Pokhara-17, Kaski, Nepal'),
-  ('phone', '+977-9800000000'),
-  ('email', 'info@pharmanest.com.np'),
+  ('phone', '+977-9865489647'),
+  ('email', 'pharmanest101@gmail.com'),
+  ('owner', 'Sandeep Poudel'),
   ('facebook', ''),
   ('instagram', ''),
   ('opening_hours', 'Sun-Fri: 9:00 AM - 8:00 PM, Sat: 10:00 AM - 6:00 PM')

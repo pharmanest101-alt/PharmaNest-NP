@@ -56,11 +56,11 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2">
                 <BsTelephone className="text-emerald-400 flex-shrink-0" />
-                <span>+977-9800000000</span>
+                <span>+977-9865489647</span>
               </li>
               <li className="flex items-center gap-2">
                 <BsEnvelope className="text-emerald-400 flex-shrink-0" />
-                <span>info@pharmanest.com.np</span>
+                <span>pharmanest101@gmail.com</span>
               </li>
             </ul>
           </div>

@@ -5,12 +5,12 @@ import { supabase, type TeamMember } from '../lib/supabase'
 const defaultMembers: TeamMember[] = [
   {
     id: '1',
-    name: 'PharmaNest Team',
-    role: 'Skincare Specialist',
-    bio: 'Dedicated to helping you find the perfect skincare solutions for your unique needs.',
+    name: 'Sandeep Poudel',
+    role: 'Founder & Skincare Specialist',
+    bio: 'Founder of PharmaNest, dedicated to helping you find the perfect skincare solutions for your unique needs.',
     image_url: '',
-    email: 'info@pharmanest.com.np',
-    phone: '+977-9800000000',
+    email: 'pharmanest101@gmail.com',
+    phone: '+977-9865489647',
     display_order: 1,
     is_active: true,
     created_at: '',
