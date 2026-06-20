@@ -24,7 +24,7 @@ function AdminLogin({ onLogin }: { onLogin: () => void }) {
     e.preventDefault()
     setLoading(true)
     // Simple password check - in production, use proper auth
-    if (password === import.meta.env.VITE_ADMIN_PASSWORD || password === 'pharmanest2024') {
+    if (password === import.meta.env.VITE_ADMIN_PASSWORD || password === 'pharmaNest@pokhara17') {
       localStorage.setItem('pharmanest_admin', 'true')
       onLogin()
       toast.success('Welcome to Admin Panel!')
@@ -59,7 +59,6 @@ function AdminLogin({ onLogin }: { onLogin: () => void }) {
           <button type="submit" className="btn-primary w-full" disabled={loading}>
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
-          <p className="text-xs text-gray-400 text-center">Default: pharmanest2024</p>
         </form>
       </div>
     </div>
