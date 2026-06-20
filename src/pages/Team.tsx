@@ -24,22 +24,27 @@ const defaultMembers: TeamMember[] = [
 export default function Team() {
   const [members, setMembers] = useState<TeamMember[]>([])
   const [loading, setLoading] = useState(true)
+  const [settings, setSettings] = useState<Record<string, string>>({})
 
   useEffect(() => {
-    fetchMembers()
+    fetchData()
   }, [])
 
-  async function fetchMembers() {
+  async function fetchData() {
     try {
-      const { data } = await supabase
-        .from('team')
-        .select('*')
-        .eq('is_active', true)
-        .order('display_order')
-      if (data && data.length > 0) {
-        setMembers(data)
+      const [membersRes, settingsRes] = await Promise.all([
+        supabase.from('team').select('*').eq('is_active', true).order('display_order'),
+        supabase.from('site_settings').select('setting_key, setting_value'),
+      ])
+      if (membersRes.data && membersRes.data.length > 0) {
+        setMembers(membersRes.data)
       } else {
         setMembers(defaultMembers)
+      }
+      if (settingsRes.data) {
+        const map: Record<string, string> = {}
+        settingsRes.data.forEach((s) => { map[s.setting_key] = s.setting_value || '' })
+        setSettings(map)
       }
     } catch {
       setMembers(defaultMembers)
@@ -48,6 +53,8 @@ export default function Team() {
     }
   }
 
+  const s = (key: string, fallback: string) => settings[key] || fallback
+
   return (
     <div>
       {/* Hero */}
@@ -55,12 +62,12 @@ export default function Team() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <TextReveal
-              text="Meet Our Team"
+              text={s('team_hero_heading', 'Meet Our Team')}
               tag="h1"
               className="text-4xl md:text-5xl font-bold font-display text-gray-900 dark:text-white mb-4"
             />
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-              Passionate skincare experts dedicated to your skin health
+              {s('team_hero_subtitle', 'Passionate skincare experts dedicated to your skin health')}
             </p>
           </div>
         </div>

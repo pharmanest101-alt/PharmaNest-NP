@@ -14,6 +14,7 @@ export default function Products() {
   const [activeCategory, setActiveCategory] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
+  const [settings, setSettings] = useState<Record<string, string>>({})
 
   useEffect(() => {
     fetchProducts()
@@ -25,12 +26,16 @@ export default function Products() {
 
   async function fetchProducts() {
     try {
-      const { data } = await supabase
-        .from('products')
-        .select('*')
-        .eq('is_active', true)
-        .order('created_at', { ascending: false })
-      if (data) setProducts(data)
+      const [productsRes, settingsRes] = await Promise.all([
+        supabase.from('products').select('*').eq('is_active', true).order('created_at', { ascending: false }),
+        supabase.from('site_settings').select('setting_key, setting_value'),
+      ])
+      if (productsRes.data) setProducts(productsRes.data)
+      if (settingsRes.data) {
+        const map: Record<string, string> = {}
+        settingsRes.data.forEach((s) => { map[s.setting_key] = s.setting_value || '' })
+        setSettings(map)
+      }
     } catch (error) {
       console.error('Error fetching products:', error)
     } finally {
@@ -55,6 +60,8 @@ export default function Products() {
     setFilteredProducts(result)
   }
 
+  const s = (key: string, fallback: string) => settings[key] || fallback
+
   return (
     <div>
       {/* Hero */}
@@ -62,12 +69,12 @@ export default function Products() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <TextReveal
-              text="Our Products"
+              text={s('products_hero_heading', 'Our Products')}
               tag="h1"
               className="text-4xl md:text-5xl font-bold font-display text-gray-900 dark:text-white mb-4"
             />
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-              Premium skincare products curated for every skin type
+              {s('products_hero_subtitle', 'Premium skincare products curated for every skin type')}
             </p>
           </div>
         </div>

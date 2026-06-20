@@ -76,3 +76,14 @@ export interface Stat {
   is_active: boolean
   created_at: string
 }
+
+export interface Feature {
+  id: string
+  section: string
+  icon: string
+  title: string
+  description: string
+  display_order: number
+  is_active: boolean
+  created_at: string
+}

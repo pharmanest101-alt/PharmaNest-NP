@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import toast from 'react-hot-toast'
-import { BsGrid, BsPeople, BsGear, BsEnvelope, BsImage, BsBox, BsPlus, BsPencil, BsTrash, BsArrowLeft, BsCheck, BsX, BsEye, BsEyeSlash } from 'react-icons/bs'
-import { supabaseAdmin as supabase, type Product, type TeamMember, type SiteSetting, type Message, type Banner, type Stat } from '../lib/supabase'
+import { BsGrid, BsPeople, BsGear, BsEnvelope, BsImage, BsBox, BsPlus, BsPencil, BsTrash, BsArrowLeft, BsCheck, BsX, BsEye, BsEyeSlash, BsShieldCheck } from 'react-icons/bs'
+import { supabaseAdmin as supabase, type Product, type TeamMember, type SiteSetting, type Message, type Banner, type Stat, type Feature } from '../lib/supabase'
+import ImageUploader from '../components/ImageUploader'
 
 const sidebarLinks = [
   { name: 'Dashboard', icon: BsGrid, path: '/admin' },
@@ -10,6 +11,7 @@ const sidebarLinks = [
   { name: 'Team', icon: BsPeople, path: '/admin/team' },
   { name: 'Banners', icon: BsImage, path: '/admin/banners' },
   { name: 'Stats', icon: BsGrid, path: '/admin/stats' },
+  { name: 'Features', icon: BsShieldCheck, path: '/admin/features' },
   { name: 'Messages', icon: BsEnvelope, path: '/admin/messages' },
   { name: 'Settings', icon: BsGear, path: '/admin/settings' },
 ]
@@ -241,7 +243,16 @@ function ProductForm({ product, onSave, onCancel }: { product: Product | null; o
         </select>
         <input type="number" placeholder="Price (NPR)" value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} className="input-field" />
         <input type="number" placeholder="Stock" value={form.stock} onChange={(e) => setForm({ ...form, stock: Number(e.target.value) })} className="input-field" />
-        <input placeholder="Image URL" value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} className="input-field md:col-span-2" />
+        <div className="md:col-span-2">
+          <ImageUploader
+            value={form.image_url}
+            onChange={(url) => setForm({ ...form, image_url: url })}
+            bucket="images"
+            folder="products"
+            aspect={1}
+            label="Product Photo"
+          />
+        </div>
         <textarea placeholder="Description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input-field md:col-span-2" rows={3} />
       </div>
       <div className="flex gap-3 mt-4">
@@ -344,7 +355,16 @@ function TeamForm({ member, onSave, onCancel }: { member: TeamMember | null; onS
       <input placeholder="Role" value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })} className="input-field" />
       <input placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="input-field" />
       <input placeholder="Phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="input-field" />
-      <input placeholder="Image URL" value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} className="input-field md:col-span-2" />
+      <div className="md:col-span-2">
+        <ImageUploader
+          value={form.image_url}
+          onChange={(url) => setForm({ ...form, image_url: url })}
+          bucket="images"
+          folder="team"
+          aspect={1}
+          label="Profile Photo"
+        />
+      </div>
       <textarea placeholder="Bio" value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} className="input-field md:col-span-2" rows={3} />
       <input type="number" placeholder="Display Order" value={form.display_order} onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })} className="input-field" />
       <div className="flex gap-3 items-center">
@@ -582,6 +602,173 @@ function StatForm({ stat, onSave, onCancel }: { stat: Stat | null; onSave: (s: P
   )
 }
 
+const featureIcons = [
+  { value: 'BsShieldCheck', label: 'Shield Check' },
+  { value: 'BsTruck', label: 'Truck' },
+  { value: 'BsHeadset', label: 'Headset' },
+  { value: 'BsStar', label: 'Star' },
+  { value: 'BsHeart', label: 'Heart' },
+  { value: 'BsEye', label: 'Eye' },
+  { value: 'BsPeople', label: 'People' },
+  { value: 'BsFlower1', label: 'Flower' },
+  { value: 'BsGear', label: 'Gear' },
+  { value: 'BsEnvelope', label: 'Envelope' },
+]
+
+function FeaturesAdmin() {
+  const [features, setFeatures] = useState<Feature[]>([])
+  const [loading, setLoading] = useState(true)
+  const [editingFeature, setEditingFeature] = useState<Feature | null>(null)
+  const [showForm, setShowForm] = useState(false)
+  const [filterSection, setFilterSection] = useState('all')
+
+  useEffect(() => { fetchFeatures() }, [])
+
+  async function fetchFeatures() {
+    const { data } = await supabase.from('features').select('*').order('display_order')
+    setFeatures(data || [])
+    setLoading(false)
+  }
+
+  async function handleSave(feature: Partial<Feature>) {
+    if (editingFeature?.id) {
+      await supabase.from('features').update(feature).eq('id', editingFeature.id)
+      toast.success('Feature updated!')
+    } else {
+      await supabase.from('features').insert([feature])
+      toast.success('Feature added!')
+    }
+    setShowForm(false)
+    setEditingFeature(null)
+    fetchFeatures()
+  }
+
+  async function handleDelete(id: string) {
+    if (!confirm('Delete this feature?')) return
+    await supabase.from('features').delete().eq('id', id)
+    toast.success('Feature deleted!')
+    fetchFeatures()
+  }
+
+  async function toggleActive(id: string, current: boolean) {
+    await supabase.from('features').update({ is_active: !current }).eq('id', id)
+    fetchFeatures()
+  }
+
+  const filtered = filterSection === 'all' ? features : features.filter(f => f.section === filterSection)
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Features</h2>
+        <button onClick={() => { setEditingFeature(null); setShowForm(true) }} className="btn-primary inline-flex items-center gap-2">
+          <BsPlus /> Add Feature
+        </button>
+      </div>
+
+      <div className="flex gap-2 mb-6">
+        {['all', 'home', 'about'].map((section) => (
+          <button
+            key={section}
+            onClick={() => setFilterSection(section)}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              filterSection === section
+                ? 'bg-emerald-600 text-white'
+                : 'bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700'
+            }`}
+          >
+            {section === 'all' ? 'All' : section === 'home' ? 'Home (Why Choose Us)' : 'About (Values)'}
+          </button>
+        ))}
+      </div>
+
+      {showForm && (
+        <FeatureForm feature={editingFeature} onSave={handleSave} onCancel={() => { setShowForm(false); setEditingFeature(null) }} />
+      )}
+
+      {loading ? (
+        <div className="text-center py-10"><div className="animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full mx-auto" /></div>
+      ) : (
+        <div className="card overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="bg-gray-50 dark:bg-slate-800">
+                <tr>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Section</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Icon</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Title</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Description</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Order</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Active</th>
+                  <th className="text-right px-4 py-3 font-medium text-gray-500">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
+                {filtered.map((feature) => (
+                  <tr key={feature.id} className="hover:bg-gray-50 dark:hover:bg-slate-800/50">
+                    <td className="px-4 py-3"><span className="px-2 py-1 rounded-full text-xs bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">{feature.section}</span></td>
+                    <td className="px-4 py-3 text-gray-600 dark:text-gray-400">{feature.icon}</td>
+                    <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{feature.title}</td>
+                    <td className="px-4 py-3 text-gray-600 dark:text-gray-400 max-w-xs truncate">{feature.description}</td>
+                    <td className="px-4 py-3 text-gray-500">{feature.display_order}</td>
+                    <td className="px-4 py-3">
+                      <button onClick={() => toggleActive(feature.id, feature.is_active)} className={`p-1 rounded ${feature.is_active ? 'text-green-600' : 'text-gray-400'}`}>
+                        {feature.is_active ? <BsEye /> : <BsEyeSlash />}
+                      </button>
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <div className="flex gap-2 justify-end">
+                        <button onClick={() => { setEditingFeature(feature); setShowForm(true) }} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg transition-colors text-blue-600"><BsPencil /></button>
+                        <button onClick={() => handleDelete(feature.id)} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg transition-colors text-red-600"><BsTrash /></button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {filtered.length === 0 && <p className="text-center py-10 text-gray-500">No features yet.</p>}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function FeatureForm({ feature, onSave, onCancel }: { feature: Feature | null; onSave: (f: Partial<Feature>) => void; onCancel: () => void }) {
+  const [form, setForm] = useState({
+    section: feature?.section || 'home',
+    icon: feature?.icon || 'BsShieldCheck',
+    title: feature?.title || '',
+    description: feature?.description || '',
+    display_order: feature?.display_order || 0,
+    is_active: feature?.is_active ?? true,
+  })
+
+  return (
+    <div className="card p-6 mb-6">
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{feature ? 'Edit Feature' : 'Add Feature'}</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <select value={form.section} onChange={(e) => setForm({ ...form, section: e.target.value })} className="input-field">
+          <option value="home">Home (Why Choose Us)</option>
+          <option value="about">About (Values)</option>
+        </select>
+        <select value={form.icon} onChange={(e) => setForm({ ...form, icon: e.target.value })} className="input-field">
+          {featureIcons.map((ic) => (
+            <option key={ic.value} value={ic.value}>{ic.label}</option>
+          ))}
+        </select>
+        <input placeholder="Title" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="input-field" />
+        <input type="number" placeholder="Display Order" value={form.display_order} onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })} className="input-field" />
+        <textarea placeholder="Description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input-field md:col-span-2" rows={3} />
+      </div>
+      <div className="flex gap-3 mt-4">
+        <button onClick={() => onSave(form)} className="btn-primary inline-flex items-center gap-2"><BsCheck /> Save</button>
+        <button onClick={onCancel} className="btn-secondary inline-flex items-center gap-2"><BsX /> Cancel</button>
+      </div>
+    </div>
+  )
+}
+
 function MessagesAdmin() {
   const [messages, setMessages] = useState<Message[]>([])
   const [loading, setLoading] = useState(true)
@@ -798,6 +985,7 @@ export default function Admin() {
           <Route path="/team" element={<TeamAdmin />} />
           <Route path="/banners" element={<BannersAdmin />} />
           <Route path="/stats" element={<StatsAdmin />} />
+          <Route path="/features" element={<FeaturesAdmin />} />
           <Route path="/messages" element={<MessagesAdmin />} />
           <Route path="/settings" element={<SettingsAdmin />} />
         </Routes>

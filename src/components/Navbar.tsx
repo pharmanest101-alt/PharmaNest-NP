@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { FiMenu, FiX } from 'react-icons/fi'
+import { supabase } from '../lib/supabase'
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -12,6 +13,7 @@ const navLinks = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [settings, setSettings] = useState<Record<string, string>>({})
   const location = useLocation()
 
   useEffect(() => {
@@ -23,6 +25,22 @@ export default function Navbar() {
   useEffect(() => {
     setIsOpen(false)
   }, [location])
+
+  useEffect(() => {
+    fetchSettings()
+  }, [])
+
+  async function fetchSettings() {
+    const { data } = await supabase.from('site_settings').select('setting_key, setting_value')
+    if (data) {
+      const map: Record<string, string> = {}
+      data.forEach((s) => { map[s.setting_key] = s.setting_value || '' })
+      setSettings(map)
+    }
+  }
+
+  const brandName = settings.brand_name || 'PharmaNest'
+  const ctaText = settings.nav_cta_text || 'Shop Now'
 
   return (
     <nav
@@ -36,9 +54,9 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <img src="/logo.jpg" alt="PharmaNest" className="h-10 w-auto rounded-lg" />
+            <img src="/logo.jpg" alt={brandName} className="h-10 w-auto rounded-lg" />
             <span className="text-xl font-bold font-display text-blue-950 dark:text-blue-300">
-              PharmaNest
+              {brandName}
             </span>
           </Link>
 
@@ -62,7 +80,7 @@ export default function Navbar() {
           {/* CTA + Mobile Toggle */}
           <div className="flex items-center gap-3">
             <Link to="/products" className="hidden md:inline-flex btn-primary text-sm">
-              Shop Now
+              {ctaText}
             </Link>
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -95,7 +113,7 @@ export default function Navbar() {
               to="/products"
               className="block btn-primary text-center text-sm mt-2"
             >
-              Shop Now
+              {ctaText}
             </Link>
           </div>
         </div>
