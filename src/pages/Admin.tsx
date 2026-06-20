@@ -176,8 +176,6 @@ function ProductsAdmin() {
                 <tr>
                   <th className="text-left px-4 py-3 font-medium text-gray-500">Name</th>
                   <th className="text-left px-4 py-3 font-medium text-gray-500">Category</th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-500">Price</th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-500">Stock</th>
                   <th className="text-left px-4 py-3 font-medium text-gray-500">Active</th>
                   <th className="text-right px-4 py-3 font-medium text-gray-500">Actions</th>
                 </tr>
@@ -187,10 +185,6 @@ function ProductsAdmin() {
                   <tr key={product.id} className="hover:bg-gray-50 dark:hover:bg-slate-800/50">
                     <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{product.name}</td>
                     <td className="px-4 py-3 text-gray-600 dark:text-gray-400">{product.category}</td>
-                    <td className="px-4 py-3 text-emerald-600 font-medium">NPR {product.price}</td>
-                    <td className="px-4 py-3">
-                      <span className={`px-2 py-1 rounded-full text-xs ${product.stock > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>{product.stock}</span>
-                    </td>
                     <td className="px-4 py-3">
                       <button onClick={() => toggleActive(product.id, product.is_active)} className={`p-1 rounded ${product.is_active ? 'text-green-600' : 'text-gray-400'}`}>
                         {product.is_active ? <BsEye /> : <BsEyeSlash />}
@@ -218,10 +212,8 @@ function ProductForm({ product, onSave, onCancel }: { product: Product | null; o
   const [form, setForm] = useState({
     name: product?.name || '',
     description: product?.description || '',
-    price: product?.price || 0,
     category: product?.category || 'skincare',
     image_url: product?.image_url || '',
-    stock: product?.stock || 0,
     is_active: product?.is_active ?? true,
   })
 
@@ -229,19 +221,23 @@ function ProductForm({ product, onSave, onCancel }: { product: Product | null; o
     <div className="card p-6 mb-6">
       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{product ? 'Edit Product' : 'Add Product'}</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <input placeholder="Product Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input-field" />
-        <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="input-field">
-          <option value="Cleanser">Cleanser</option>
-          <option value="Moisturizer">Moisturizer</option>
-          <option value="Serum">Serum</option>
-          <option value="Sunscreen">Sunscreen</option>
-          <option value="Toner">Toner</option>
-          <option value="Mask">Mask</option>
-          <option value="Treatment">Treatment</option>
-          <option value="Other">Other</option>
-        </select>
-        <input type="number" placeholder="Price (NPR)" value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} className="input-field" />
-        <input type="number" placeholder="Stock" value={form.stock} onChange={(e) => setForm({ ...form, stock: Number(e.target.value) })} className="input-field" />
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Product Name</label>
+          <input placeholder="e.g. Vitamin C Serum" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input-field" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
+          <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="input-field">
+            <option value="Cleanser">Cleanser</option>
+            <option value="Moisturizer">Moisturizer</option>
+            <option value="Serum">Serum</option>
+            <option value="Sunscreen">Sunscreen</option>
+            <option value="Toner">Toner</option>
+            <option value="Mask">Mask</option>
+            <option value="Treatment">Treatment</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
         <div className="md:col-span-2">
           <ImageUploader
             value={form.image_url}
@@ -252,7 +248,10 @@ function ProductForm({ product, onSave, onCancel }: { product: Product | null; o
             label="Product Photo"
           />
         </div>
-        <textarea placeholder="Description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input-field md:col-span-2" rows={3} />
+        <div className="md:col-span-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+          <textarea placeholder="Brief description of the product" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input-field" rows={3} />
+        </div>
       </div>
       <div className="flex gap-3 mt-4">
         <button onClick={() => onSave(form)} className="btn-primary inline-flex items-center gap-2"><BsCheck /> Save</button>
@@ -350,10 +349,22 @@ function TeamForm({ member, onSave, onCancel }: { member: TeamMember | null; onS
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <input placeholder="Full Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input-field" />
-      <input placeholder="Role" value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })} className="input-field" />
-      <input placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="input-field" />
-      <input placeholder="Phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="input-field" />
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
+        <input placeholder="e.g. Sandeep Poudel" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input-field" />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Role</label>
+        <input placeholder="e.g. Founder & Skincare Specialist" value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })} className="input-field" />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+        <input placeholder="e.g. name@example.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="input-field" />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone</label>
+        <input placeholder="e.g. +977-9865489647" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="input-field" />
+      </div>
       <div className="md:col-span-2">
         <ImageUploader
           value={form.image_url}
@@ -364,9 +375,15 @@ function TeamForm({ member, onSave, onCancel }: { member: TeamMember | null; onS
           label="Profile Photo"
         />
       </div>
-      <textarea placeholder="Bio" value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} className="input-field md:col-span-2" rows={3} />
-      <input type="number" placeholder="Display Order" value={form.display_order} onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })} className="input-field" />
-      <div className="flex gap-3 items-center">
+      <div className="md:col-span-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Bio</label>
+        <textarea placeholder="Short bio about this team member" value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} className="input-field" rows={3} />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Display Order</label>
+        <input type="number" placeholder="0" value={form.display_order} onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })} className="input-field" />
+      </div>
+      <div className="flex gap-3 items-end">
         <button onClick={() => onSave(form)} className="btn-primary inline-flex items-center gap-2"><BsCheck /> Save</button>
         <button onClick={onCancel} className="btn-secondary inline-flex items-center gap-2"><BsX /> Cancel</button>
       </div>
@@ -462,12 +479,30 @@ function BannerForm({ banner, onSave, onCancel }: { banner: Banner | null; onSav
     <div>
       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{banner ? 'Edit Banner' : 'Add Banner'}</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <input placeholder="Title" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="input-field" />
-        <input placeholder="Subtitle" value={form.subtitle} onChange={(e) => setForm({ ...form, subtitle: e.target.value })} className="input-field" />
-        <input placeholder="Image URL" value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} className="input-field" />
-        <input placeholder="Button Text" value={form.button_text} onChange={(e) => setForm({ ...form, button_text: e.target.value })} className="input-field" />
-        <input placeholder="Button Link (e.g. /products)" value={form.button_link} onChange={(e) => setForm({ ...form, button_link: e.target.value })} className="input-field" />
-        <input type="number" placeholder="Display Order" value={form.display_order} onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })} className="input-field" />
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Banner Title</label>
+          <input placeholder="e.g. Welcome to PharmaNest" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="input-field" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subtitle</label>
+          <input placeholder="e.g. Your Trusted Skincare Pharmacy" value={form.subtitle} onChange={(e) => setForm({ ...form, subtitle: e.target.value })} className="input-field" />
+        </div>
+        <div className="md:col-span-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Image URL</label>
+          <input placeholder="Paste image URL here" value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} className="input-field" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Button Text</label>
+          <input placeholder="e.g. Explore Products" value={form.button_text} onChange={(e) => setForm({ ...form, button_text: e.target.value })} className="input-field" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Button Link</label>
+          <input placeholder="e.g. /products" value={form.button_link} onChange={(e) => setForm({ ...form, button_link: e.target.value })} className="input-field" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Display Order</label>
+          <input type="number" placeholder="0" value={form.display_order} onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })} className="input-field" />
+        </div>
       </div>
       <div className="flex gap-3 mt-4">
         <button onClick={() => onSave(form)} className="btn-primary inline-flex items-center gap-2"><BsCheck /> Save</button>
@@ -588,10 +623,22 @@ function StatForm({ stat, onSave, onCancel }: { stat: Stat | null; onSave: (s: P
     <div className="card p-6 mb-6">
       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{stat ? 'Edit Stat' : 'Add Stat'}</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <input placeholder="Label (e.g. Happy Customers)" value={form.label} onChange={(e) => setForm({ ...form, label: e.target.value })} className="input-field" />
-        <input type="number" placeholder="Value (e.g. 5000)" value={form.value} onChange={(e) => setForm({ ...form, value: Number(e.target.value) })} className="input-field" />
-        <input placeholder="Suffix (e.g. +)" value={form.suffix} onChange={(e) => setForm({ ...form, suffix: e.target.value })} className="input-field" />
-        <input type="number" placeholder="Display Order" value={form.display_order} onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })} className="input-field" />
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Label</label>
+          <input placeholder="e.g. Happy Customers" value={form.label} onChange={(e) => setForm({ ...form, label: e.target.value })} className="input-field" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Value</label>
+          <input type="number" placeholder="e.g. 5000" value={form.value} onChange={(e) => setForm({ ...form, value: Number(e.target.value) })} className="input-field" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Suffix</label>
+          <input placeholder="e.g. +" value={form.suffix} onChange={(e) => setForm({ ...form, suffix: e.target.value })} className="input-field" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Display Order</label>
+          <input type="number" placeholder="0" value={form.display_order} onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })} className="input-field" />
+        </div>
       </div>
       <div className="flex gap-3 mt-4">
         <button onClick={() => onSave(form)} className="btn-primary inline-flex items-center gap-2"><BsCheck /> Save</button>
@@ -747,18 +794,33 @@ function FeatureForm({ feature, onSave, onCancel }: { feature: Feature | null; o
     <div className="card p-6 mb-6">
       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{feature ? 'Edit Feature' : 'Add Feature'}</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <select value={form.section} onChange={(e) => setForm({ ...form, section: e.target.value })} className="input-field">
-          <option value="home">Home (Why Choose Us)</option>
-          <option value="about">About (Values)</option>
-        </select>
-        <select value={form.icon} onChange={(e) => setForm({ ...form, icon: e.target.value })} className="input-field">
-          {featureIcons.map((ic) => (
-            <option key={ic.value} value={ic.value}>{ic.label}</option>
-          ))}
-        </select>
-        <input placeholder="Title" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="input-field" />
-        <input type="number" placeholder="Display Order" value={form.display_order} onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })} className="input-field" />
-        <textarea placeholder="Description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input-field md:col-span-2" rows={3} />
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Section</label>
+          <select value={form.section} onChange={(e) => setForm({ ...form, section: e.target.value })} className="input-field">
+            <option value="home">Home (Why Choose Us)</option>
+            <option value="about">About (Values)</option>
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Icon</label>
+          <select value={form.icon} onChange={(e) => setForm({ ...form, icon: e.target.value })} className="input-field">
+            {featureIcons.map((ic) => (
+              <option key={ic.value} value={ic.value}>{ic.label}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
+          <input placeholder="e.g. Authentic Products" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="input-field" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Display Order</label>
+          <input type="number" placeholder="0" value={form.display_order} onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })} className="input-field" />
+        </div>
+        <div className="md:col-span-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+          <textarea placeholder="Brief description of this feature" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input-field" rows={3} />
+        </div>
       </div>
       <div className="flex gap-3 mt-4">
         <button onClick={() => onSave(form)} className="btn-primary inline-flex items-center gap-2"><BsCheck /> Save</button>

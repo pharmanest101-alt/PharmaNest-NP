@@ -170,18 +170,12 @@ export default function Products() {
                       <div className="p-6 flex-1">
                         <div className="flex items-start justify-between gap-2 mb-2">
                           <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium uppercase tracking-wider">{product.category}</p>
-                          <span className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ${product.stock > 0 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
-                            {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
-                          </span>
                         </div>
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{product.name}</h3>
                         {product.description && (
                           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{product.description}</p>
                         )}
-                        <div className="flex items-center justify-between">
-                          <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
-                            NPR {product.price.toLocaleString()}
-                          </span>
+                        <div className="flex items-center justify-end">
                           <button className="btn-primary text-sm apple-press">
                             Enquire
                           </button>
