@@ -232,8 +232,6 @@ function ProductForm({ product, onSave, onCancel }: { product: Product | null; o
             <option value="Moisturizer">Moisturizer</option>
             <option value="Serum">Serum</option>
             <option value="Sunscreen">Sunscreen</option>
-            <option value="Toner">Toner</option>
-            <option value="Mask">Mask</option>
             <option value="Treatment">Treatment</option>
             <option value="Baby Care">Baby Care</option>
             <option value="Cream">Cream</option>
