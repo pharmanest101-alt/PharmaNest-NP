@@ -59,6 +59,7 @@ export default function Footer() {
                 { name: 'About Us', path: '/about' },
                 { name: 'Products', path: '/products' },
                 { name: 'Our Team', path: '/team' },
+                { name: 'Contact', path: '/contact' },
               ].map((link) => (
                 <li key={link.path}>
                   <Link to={link.path} className="hover:text-emerald-400 transition-colors text-sm">

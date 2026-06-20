@@ -8,6 +8,7 @@ const navLinks = [
   { name: 'About', path: '/about' },
   { name: 'Products', path: '/products' },
   { name: 'Team', path: '/team' },
+  { name: 'Contact', path: '/contact' },
 ]
 
 export default function Navbar() {
