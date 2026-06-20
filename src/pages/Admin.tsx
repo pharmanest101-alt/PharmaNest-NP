@@ -235,6 +235,8 @@ function ProductForm({ product, onSave, onCancel }: { product: Product | null; o
             <option value="Toner">Toner</option>
             <option value="Mask">Mask</option>
             <option value="Treatment">Treatment</option>
+            <option value="Baby Care">Baby Care</option>
+            <option value="Cream">Cream</option>
             <option value="Other">Other</option>
           </select>
         </div>
