@@ -6,7 +6,7 @@ import ScrollReveal from '../components/ScrollReveal'
 import TextReveal from '../components/TextReveal'
 import TiltCard from '../components/TiltCard'
 
-const categories = ['All', 'Cleanser', 'Moisturizer', 'Serum', 'Sunscreen' , 'Treatment', 'Baby Care', 'Cream', 'Other']
+const categories = [ 'Cleanser', 'Moisturizer', 'Serum', 'Sunscreen' , 'Treatment', 'Baby Care', 'Cream', 'Other']
 
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([])
