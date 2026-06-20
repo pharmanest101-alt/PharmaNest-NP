@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { BsFlower1, BsSearch, BsGrid, BsList } from 'react-icons/bs'
 import { supabase, type Product } from '../lib/supabase'
 import ScrollReveal from '../components/ScrollReveal'
@@ -176,9 +177,12 @@ export default function Products() {
                           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{product.description}</p>
                         )}
                         <div className="flex items-center justify-end">
-                          <button className="btn-primary text-sm apple-press">
+                          <Link
+                            to={`/contact?subject=Product Inquiry&message=Is ${encodeURIComponent(product.name)} available?`}
+                            className="btn-primary text-sm apple-press"
+                          >
                             Enquire
-                          </button>
+                          </Link>
                         </div>
                       </div>
                     </div>

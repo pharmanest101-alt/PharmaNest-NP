@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { BsSend, BsCheckCircle, BsTelephone, BsEnvelope, BsGeoAlt } from 'react-icons/bs'
 import { supabase } from '../lib/supabase'
 import toast from 'react-hot-toast'
@@ -6,7 +7,13 @@ import ScrollReveal from '../components/ScrollReveal'
 import TextReveal from '../components/TextReveal'
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
+  const [searchParams] = useSearchParams()
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    subject: searchParams.get('subject') || '',
+    message: searchParams.get('message') || '',
+  })
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
 
