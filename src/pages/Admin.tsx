@@ -25,7 +25,7 @@ function AdminLogin({ onLogin }: { onLogin: () => void }) {
     e.preventDefault()
     setLoading(true)
     // Simple password check - in production, use proper auth
-    if (password === import.meta.env.VITE_ADMIN_PASSWORD || password === 'EMERGENCY_PASSWORD-1-2-3-4--67--6543-456-TFRNEBGTYURFJU834IRHDYE6Y93VUTID68D73YHEVW7943EW8493YRF9W8YRE') {
+    if (password === import.meta.env.VITE_ADMIN_PASSWORD) {
       localStorage.setItem('pharmanest_admin', 'true')
       onLogin()
       toast.success('Welcome to Admin Panel!')
