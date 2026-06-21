@@ -116,6 +116,7 @@ INSERT INTO site_settings (setting_key, setting_value) VALUES
   ('facebook', ''),
   ('instagram', 'https://www.instagram.com/pharmanest.np/'),
   ('tiktok', 'https://www.tiktok.com/@pharmanest.np'),
+  ('whatsapp', ''),
 
   -- Maps
   ('maps_link', 'https://www.google.com/maps/place/PharmaNest+Skin+Care+%7C+Baby+Care/@28.1902873,83.9552205,17z/data=!3m1!4b1!4m6!3m5!1s0x399595d83afaf09f:0xe9cd9f1b0e0252da!8m2!3d28.1902826!4d83.9577954!16s%2Fg%2F11z4754zb4?entry=ttu'),
