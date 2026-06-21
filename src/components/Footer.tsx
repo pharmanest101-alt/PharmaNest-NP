@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { BsFacebook, BsInstagram, BsTelephone, BsEnvelope, BsGeoAlt } from 'react-icons/bs'
+import { BsFacebook, BsInstagram, BsWhatsapp, BsTelephone, BsEnvelope, BsGeoAlt } from 'react-icons/bs'
 import { supabase } from '../lib/supabase'
 import ScrollReveal from './ScrollReveal'
 
@@ -50,6 +50,11 @@ export default function Footer() {
               {s('tiktok', '') && (
                 <a href={s('tiktok', '#')} target="_blank" rel="noopener" className="w-10 h-10 bg-slate-800 hover:bg-emerald-600 rounded-lg flex items-center justify-center transition-colors">
                   <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.75a8.18 8.18 0 004.76 1.52v-3.4a4.85 4.85 0 01-1-.18z"/></svg>
+                </a>
+              )}
+              {s('whatsapp', '') && (
+                <a href={`https://wa.me/${s('whatsapp', '').replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener" className="w-10 h-10 bg-slate-800 hover:bg-emerald-600 rounded-lg flex items-center justify-center transition-colors">
+                  <BsWhatsapp />
                 </a>
               )}
             </div>
