@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { BsInstagram, BsTelephone, BsEnvelope, BsGeoAlt } from 'react-icons/bs'
+import { BsFacebook, BsInstagram, BsTelephone, BsEnvelope, BsGeoAlt } from 'react-icons/bs'
 import { supabase } from '../lib/supabase'
 import ScrollReveal from './ScrollReveal'
 
@@ -37,6 +37,11 @@ export default function Footer() {
               {s('footer_description', 'Your trusted skincare pharmacy in the heart of Pokhara. We provide premium skincare products and expert consultations to help you achieve healthy, glowing skin.')}
             </p>
             <div className="flex gap-3">
+              {s('facebook', '') && (
+                <a href={s('facebook', '#')} target="_blank" rel="noopener" className="w-10 h-10 bg-slate-800 hover:bg-emerald-600 rounded-lg flex items-center justify-center transition-colors">
+                  <BsFacebook />
+                </a>
+              )}
               {s('instagram', '') && (
                 <a href={s('instagram', '#')} target="_blank" rel="noopener" className="w-10 h-10 bg-slate-800 hover:bg-emerald-600 rounded-lg flex items-center justify-center transition-colors">
                   <BsInstagram />
