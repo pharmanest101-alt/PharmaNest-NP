@@ -177,6 +177,7 @@ function ProductsAdmin() {
                 <tr>
                   <th className="text-left px-4 py-3 font-medium text-gray-500">Name</th>
                   <th className="text-left px-4 py-3 font-medium text-gray-500">Category</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">MRP</th>
                   <th className="text-left px-4 py-3 font-medium text-gray-500">Active</th>
                   <th className="text-right px-4 py-3 font-medium text-gray-500">Actions</th>
                 </tr>
@@ -186,6 +187,7 @@ function ProductsAdmin() {
                   <tr key={product.id} className="hover:bg-gray-50 dark:hover:bg-slate-800/50">
                     <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{product.name}</td>
                     <td className="px-4 py-3 text-gray-600 dark:text-gray-400">{product.category}</td>
+                    <td className="px-4 py-3 text-gray-600 dark:text-gray-400">{product.mrp != null ? `NPR ${product.mrp}` : '-'}</td>
                     <td className="px-4 py-3">
                       <button onClick={() => toggleActive(product.id, product.is_active)} className={`p-1 rounded ${product.is_active ? 'text-green-600' : 'text-gray-400'}`}>
                         {product.is_active ? <BsEye /> : <BsEyeSlash />}
@@ -215,6 +217,7 @@ function ProductForm({ product, onSave, onCancel }: { product: Product | null; o
     description: product?.description || '',
     category: product?.category || 'skincare',
     image_url: product?.image_url || '',
+    mrp: product?.mrp || '',
     is_active: product?.is_active ?? true,
   })
 
@@ -239,6 +242,10 @@ function ProductForm({ product, onSave, onCancel }: { product: Product | null; o
             <option value="Other">Other</option>
           </select>
         </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">MRP (NPR)</label>
+          <input type="number" placeholder="e.g. 1200" value={form.mrp} onChange={(e) => setForm({ ...form, mrp: e.target.value ? Number(e.target.value) : '' })} className="input-field" />
+        </div>
         <div className="md:col-span-2">
           <ImageUploader
             value={form.image_url}
@@ -255,7 +262,7 @@ function ProductForm({ product, onSave, onCancel }: { product: Product | null; o
         </div>
       </div>
       <div className="flex gap-3 mt-4">
-        <button onClick={() => onSave(form)} className="btn-primary inline-flex items-center gap-2"><BsCheck /> Save</button>
+        <button onClick={() => onSave({ ...form, mrp: form.mrp !== '' ? Number(form.mrp) : null })} className="btn-primary inline-flex items-center gap-2"><BsCheck /> Save</button>
         <button onClick={onCancel} className="btn-secondary inline-flex items-center gap-2"><BsX /> Cancel</button>
       </div>
     </div>

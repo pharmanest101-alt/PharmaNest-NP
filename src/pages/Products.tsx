@@ -173,6 +173,9 @@ export default function Products() {
                           <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium uppercase tracking-wider">{product.category}</p>
                         </div>
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{product.name}</h3>
+                        {product.mrp != null && (
+                          <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400 mb-2">NPR {product.mrp}</p>
+                        )}
                         {product.description && (
                           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{product.description}</p>
                         )}

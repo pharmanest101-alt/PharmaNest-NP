@@ -18,6 +18,7 @@ export interface Product {
   description: string
   category: string
   image_url: string
+  mrp: number | null
   is_active: boolean
   created_at: string
   updated_at: string

@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS products (
   description TEXT,
   category TEXT NOT NULL DEFAULT 'skincare',
   image_url TEXT,
+  mrp DECIMAL(10,2),
   is_active BOOLEAN DEFAULT true,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
