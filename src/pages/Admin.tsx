@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { BsGrid, BsPeople, BsGear, BsEnvelope, BsImage, BsBox, BsPlus, BsPencil, BsTrash, BsArrowLeft, BsCheck, BsX, BsEye, BsEyeSlash, BsShieldCheck } from 'react-icons/bs'
+import { FiMenu, FiX } from 'react-icons/fi'
 import { supabaseAdmin as supabase, type Product, type TeamMember, type SiteSetting, type Message, type Banner, type Stat, type Feature } from '../lib/supabase'
 import ImageUploader from '../components/ImageUploader'
 
@@ -984,8 +985,13 @@ function SettingsAdmin() {
 
 export default function Admin() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => localStorage.getItem('pharmanest_admin') === 'true')
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
+
+  useEffect(() => {
+    setSidebarOpen(false)
+  }, [location])
 
   if (!isLoggedIn) {
     return <AdminLogin onLogin={() => setIsLoggedIn(true)} />
@@ -1001,16 +1007,48 @@ export default function Admin() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950 flex">
+      {/* Mobile Header */}
+      <div className="md:hidden fixed top-0 left-0 right-0 h-14 bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 flex items-center px-4 z-40">
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300 transition-colors"
+        >
+          <FiMenu className="text-xl" />
+        </button>
+        <Link to="/" className="flex items-center gap-2 ml-3">
+          <img src="/logo.jpg" alt="PharmaNest" className="h-8 w-auto rounded-lg" />
+          <span className="font-bold text-gray-900 dark:text-white text-sm">Admin</span>
+        </Link>
+      </div>
+
+      {/* Mobile Backdrop */}
+      {sidebarOpen && (
+        <div
+          className="md:hidden fixed inset-0 bg-black/50 z-40 transition-opacity"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="w-64 bg-white dark:bg-slate-900 border-r border-gray-200 dark:border-slate-800 flex flex-col fixed h-full z-30">
+      <aside className={`w-64 bg-white dark:bg-slate-900 border-r border-gray-200 dark:border-slate-800 flex flex-col fixed h-full z-50 transition-transform duration-300 ${
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      } md:translate-x-0`}>
         <div className="p-6 border-b border-gray-100 dark:border-slate-800">
-          <Link to="/" className="flex items-center gap-2">
-            <img src="/logo.jpg" alt="PharmaNest" className="h-9 w-auto rounded-lg" />
-            <div>
-              <span className="font-bold text-gray-900 dark:text-white text-sm">PharmaNest</span>
-              <span className="block text-xs text-gray-500">Admin Panel</span>
-            </div>
-          </Link>
+          <div className="flex items-center justify-between">
+            <Link to="/" className="flex items-center gap-2">
+              <img src="/logo.jpg" alt="PharmaNest" className="h-9 w-auto rounded-lg" />
+              <div>
+                <span className="font-bold text-gray-900 dark:text-white text-sm">PharmaNest</span>
+                <span className="block text-xs text-gray-500">Admin Panel</span>
+              </div>
+            </Link>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="md:hidden p-1 rounded hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-500"
+            >
+              <FiX className="text-lg" />
+            </button>
+          </div>
         </div>
         <nav className="flex-1 p-4 space-y-1">
           {sidebarLinks.map((link) => (
@@ -1039,7 +1077,7 @@ export default function Admin() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 ml-64 p-8">
+      <main className="flex-1 md:ml-64 pt-14 md:pt-0 p-8">
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/products" element={<ProductsAdmin />} />
