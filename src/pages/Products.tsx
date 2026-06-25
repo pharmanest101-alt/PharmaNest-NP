@@ -5,6 +5,7 @@ import { supabase, type Product } from '../lib/supabase'
 import ScrollReveal from '../components/ScrollReveal'
 import TextReveal from '../components/TextReveal'
 import TiltCard from '../components/TiltCard'
+import SEO from '../components/SEO'
 
 const categories = [ 'All', 'Cleanser', 'Moisturizer', 'Serum', 'Sunscreen' , 'Treatment', 'Baby Care', 'Cream', 'Other']
 
@@ -65,6 +66,12 @@ export default function Products() {
 
   return (
     <div>
+      <SEO
+        title="Our Products - PharmaNest Skincare Pharmacy | Pokhara, Nepal"
+        description="Browse premium skincare products at PharmaNest Pokhara. Cleansers, moisturizers, serums, sunscreens, and more for every skin type."
+        keywords="skincare products Nepal, cleanser Pokhara, moisturizer Nepal, serum Pokhara, sunscreen Nepal, skincare shop Pokhara, buy skincare online Nepal"
+        url="/products"
+      />
       {/* Hero */}
       <section className="pt-32 pb-10 bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-slate-950 dark:via-slate-900 dark:to-emerald-950/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

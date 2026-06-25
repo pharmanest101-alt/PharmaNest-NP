@@ -5,6 +5,7 @@ import ScrollReveal from '../components/ScrollReveal'
 import TextReveal from '../components/TextReveal'
 import TiltCard from '../components/TiltCard'
 import GlowCard from '../components/GlowCard'
+import SEO from '../components/SEO'
 
 const defaultMembers: TeamMember[] = [
   {
@@ -57,6 +58,12 @@ export default function Team() {
 
   return (
     <div>
+      <SEO
+        title="Our Team - PharmaNest Skincare Pharmacy | Pokhara, Nepal"
+        description="Meet the passionate skincare experts at PharmaNest in Pokhara. Dedicated to helping you find the perfect skincare solutions for your unique needs."
+        keywords="PharmaNest team, skincare experts Pokhara, skincare specialist Nepal, Sandeep Poudel PharmaNest"
+        url="/team"
+      />
       {/* Hero */}
       <section className="pt-32 pb-20 bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-slate-950 dark:via-slate-900 dark:to-emerald-950/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

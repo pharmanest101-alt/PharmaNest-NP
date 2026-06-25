@@ -7,6 +7,7 @@ import MagneticButton from '../components/MagneticButton'
 import TiltCard from '../components/TiltCard'
 import GlowCard from '../components/GlowCard'
 import ParallaxSection from '../components/ParallaxSection'
+import SEO from '../components/SEO'
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   BsShieldCheck, BsTruck, BsHeadset, BsStar, BsHeart, BsEye, BsPeople, BsFlower1, BsGear, BsEnvelope,
@@ -56,6 +57,12 @@ export default function About() {
 
   return (
     <div>
+      <SEO
+        title="About PharmaNest - Premium Skincare Pharmacy | Pokhara, Nepal"
+        description="Learn about PharmaNest, Pokhara's trusted skincare pharmacy. Our story, values, and commitment to providing genuine skincare products and expert consultations."
+        keywords="about PharmaNest, skincare pharmacy Pokhara, Nepal skincare story, Devi's Fall pharmacy, skincare experts Nepal"
+        url="/about"
+      />
       {/* Hero */}
       <section className="pt-32 pb-20 bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-slate-950 dark:via-slate-900 dark:to-emerald-950/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

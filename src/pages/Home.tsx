@@ -9,6 +9,7 @@ import TiltCard from '../components/TiltCard'
 import GlowCard from '../components/GlowCard'
 import AnimatedCounter from '../components/AnimatedCounter'
 import ParallaxSection from '../components/ParallaxSection'
+import SEO, { localBusinessSchema } from '../components/SEO'
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   BsShieldCheck, BsTruck, BsHeadset, BsStar, BsHeart, BsEye, BsPeople, BsFlower1, BsGear, BsEnvelope,
@@ -59,6 +60,13 @@ export default function Home() {
 
   return (
     <div>
+      <SEO
+        title="PharmaNest - Premium Skincare Pharmacy | Pokhara, Nepal"
+        description="PharmaNest is Pokhara's trusted skincare pharmacy in Devi's Fall. Premium skincare products, expert consultations, and personalized care for healthy, glowing skin."
+        keywords="skincare pharmacy Pokhara, Nepal skincare, Devi's Fall pharmacy, skincare products Nepal, PharmaNest, premium skincare Nepal, skincare consultation Pokhara"
+        url="/"
+        structuredData={localBusinessSchema}
+      />
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-slate-950 dark:via-slate-900 dark:to-emerald-950/20" />

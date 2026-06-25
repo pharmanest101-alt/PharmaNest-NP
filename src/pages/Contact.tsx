@@ -5,6 +5,7 @@ import { supabase } from '../lib/supabase'
 import toast from 'react-hot-toast'
 import ScrollReveal from '../components/ScrollReveal'
 import TextReveal from '../components/TextReveal'
+import SEO from '../components/SEO'
 
 export default function Contact() {
   const [searchParams] = useSearchParams()
@@ -42,6 +43,12 @@ export default function Contact() {
 
   return (
     <div>
+      <SEO
+        title="Contact Us - PharmaNest Skincare Pharmacy | Pokhara, Nepal"
+        description="Get in touch with PharmaNest in Pokhara. Visit us at Devi's Fall or call +977-9865489647. We'd love to help with your skincare needs."
+        keywords="contact PharmaNest, skincare pharmacy Pokhara, Devi's Fall pharmacy, skincare consultation booking Nepal"
+        url="/contact"
+      />
       {/* Hero */}
       <section className="pt-32 pb-10 bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-slate-950 dark:via-slate-900 dark:to-emerald-950/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
