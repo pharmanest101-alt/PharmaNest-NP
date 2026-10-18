@@ -103,7 +103,7 @@ export default function Footer() {
         <ScrollReveal animation="fade-up" delay={300}>
           <div className="border-t border-slate-800 mt-12 pt-8 text-center text-sm text-gray-500">
             <p>&copy; {new Date().getFullYear()} {brandName}. All rights reserved.</p>
-            <p><strong>Managed by:</strong><a href="https://awishkar-web-dev.vercel.app"> Awishkar Web Development</a></p>
+            <p><strong>Managed by:</strong><a href="https://veltriontech.vercel.app"> Veltrion</a></p>
           </div>
         </ScrollReveal>
       </div>
