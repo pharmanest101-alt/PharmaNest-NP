@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
-import { BsFlower1, BsEnvelope, BsTelephone } from 'react-icons/bs'
+import { BsEnvelope, BsTelephone, BsArrowRight } from 'react-icons/bs'
 import { supabase, type TeamMember } from '../lib/supabase'
 import ScrollReveal from '../components/ScrollReveal'
 import TextReveal from '../components/TextReveal'
-import TiltCard from '../components/TiltCard'
-import GlowCard from '../components/GlowCard'
+import MagneticButton from '../components/MagneticButton'
+import ProductShelf from '../components/ProductShelf'
 import SEO from '../components/SEO'
 
 const defaultMembers: TeamMember[] = [
@@ -64,74 +64,95 @@ export default function Team() {
         keywords="PharmaNest team, skincare experts Pokhara, skincare specialist Nepal, Sandeep Poudel PharmaNest"
         url="/team"
       />
+
       {/* Hero */}
-      <section className="pt-32 pb-20 bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-slate-950 dark:via-slate-900 dark:to-emerald-950/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <TextReveal
-              text={s('team_hero_heading', 'Meet Our Team')}
-              tag="h1"
-              className="text-4xl md:text-5xl font-bold font-display text-gray-900 dark:text-white mb-4"
-            />
-            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-              {s('team_hero_subtitle', 'Passionate skincare experts dedicated to your skin health')}
-            </p>
+      <section className="pt-32 pb-14 md:pb-16">
+        <div className="max-w-content mx-auto px-5 sm:px-8 text-center">
+          <TextReveal
+            text={s('team_hero_heading', 'Meet Our Team')}
+            tag="h1"
+            className="hero-heading text-carbon"
+          />
+          <p className="text-[19px] md:text-[21px] text-inksoft mt-7 max-w-2xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
+            {s('team_hero_subtitle', "The skincare specialists behind PharmaNest, our pharmacy in Devi's Fall, Pokhara")}
+          </p>
+          <div className="mt-9">
+            <MagneticButton href="/contact" className="btn-primary text-[17px] px-7 py-3.5 inline-flex items-center gap-2.5">
+              Book a Consultation
+              <BsArrowRight aria-hidden="true" />
+            </MagneticButton>
           </div>
         </div>
       </section>
 
-      {/* Team Grid */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Members */}
+      <section className="pb-24 md:pb-32">
+        <div className="max-w-wide mx-auto px-5 sm:px-8">
           {loading ? (
-            <div className="text-center py-20">
-              <div className="animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full mx-auto" />
-              <p className="mt-4 text-gray-500">Loading team members...</p>
+            <div className="text-center py-24">
+              <div className="animate-spin w-8 h-8 border-[3px] border-hairline border-t-accent-700 rounded-full mx-auto" role="status" aria-label="Loading" />
+              <p className="mt-4 text-[15px] text-steel">Loading team members...</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-12">
               {members.map((member, i) => (
-                <ScrollReveal key={member.id} animation="rotate-in" delay={i * 150}>
-                  <TiltCard tiltAmount={10}>
-                    <GlowCard glowColor="rgba(16, 185, 129, 0.1)">
-                      <div className="card group text-center h-full">
-                        <div className="aspect-square bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-slate-800 dark:to-slate-700 flex items-center justify-center overflow-hidden">
-                          {member.image_url ? (
-                            <img src={member.image_url} alt={member.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
-                          ) : (
-                            <div className="w-32 h-32 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center">
-                              <BsFlower1 className="text-5xl text-emerald-300 dark:text-emerald-600" />
-                            </div>
-                          )}
-                        </div>
-                        <div className="p-8">
-                          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">{member.name}</h3>
-                          <p className="text-emerald-600 dark:text-emerald-400 font-medium mb-4">{member.role}</p>
-                          {member.bio && (
-                            <p className="text-gray-600 dark:text-gray-400 text-sm mb-5">{member.bio}</p>
-                          )}
-                          <div className="flex justify-center gap-3">
-                            {member.email && (
-                              <a href={`mailto:${member.email}`} className="w-10 h-10 bg-gray-100 dark:bg-slate-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110">
-                                <BsEnvelope className="text-emerald-600 dark:text-emerald-400" />
-                              </a>
-                            )}
-                            {member.phone && (
-                              <a href={`tel:${member.phone}`} className="w-10 h-10 bg-gray-100 dark:bg-slate-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110">
-                                <BsTelephone className="text-emerald-600 dark:text-emerald-400" />
-                              </a>
-                            )}
-                          </div>
-                        </div>
+                <ScrollReveal key={member.id} animation="fade-up" delay={i * 80}>
+                  <figure>
+                    {member.image_url ? (
+                      <div className="aspect-[4/5] bg-white rounded-card overflow-hidden">
+                        <img
+                          src={member.image_url}
+                          alt={member.name}
+                          loading={i < 3 ? 'eager' : 'lazy'}
+                          className="w-full h-full object-cover object-top"
+                        />
                       </div>
-                    </GlowCard>
-                  </TiltCard>
+                    ) : (
+                      <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center" aria-hidden="true">
+                        <span className="text-[20px] sm:text-[24px] font-semibold text-silver leading-none">
+                          {member.name.trim().charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                    )}
+                    <figcaption className="mt-5">
+                      <h2 className="text-[21px] font-semibold text-carbon tracking-[-0.01em]">{member.name}</h2>
+                      <p className="text-[15px] text-steel font-medium mt-1">{member.role}</p>
+                      {member.bio && (
+                        <p className="text-[16px] text-inksoft mt-3 leading-relaxed">{member.bio}</p>
+                      )}
+                      {(member.email || member.phone) && (
+                        <div className="flex gap-2.5 mt-4">
+                          {member.email && (
+                            <a
+                              href={`mailto:${member.email}`}
+                              className="w-11 h-11 bg-white hover:bg-frost border border-hairline rounded-card flex items-center justify-center text-carbon apple-press" /* taste-skill-ignore */
+                              aria-label={`Email ${member.name}`}
+                            >
+                              <BsEnvelope aria-hidden="true" />
+                            </a>
+                          )}
+                          {member.phone && (
+                            <a
+                              href={`tel:${member.phone.replace(/[^0-9+]/g, '')}`}
+                              className="w-11 h-11 bg-white hover:bg-frost border border-hairline rounded-card flex items-center justify-center text-carbon apple-press" /* taste-skill-ignore */
+                              aria-label={`Call ${member.name}`}
+                            >
+                              <BsTelephone aria-hidden="true" />
+                            </a>
+                          )}
+                        </div>
+                      )}
+                    </figcaption>
+                  </figure>
                 </ScrollReveal>
               ))}
             </div>
           )}
         </div>
       </section>
+
+      {/* From the shelf - real products, in motion */}
+      <ProductShelf heading={s('home_featured_heading', 'From the Shelf')} tileClass="bg-frost" />
     </div>
   )
 }

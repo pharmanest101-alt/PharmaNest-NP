@@ -26,6 +26,11 @@ export default function AnimatedCounter({
     if (!isVisible || hasAnimated.current) return
     hasAnimated.current = true
 
+    if (typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setCount(to)
+      return
+    }
+
     const startTime = performance.now()
     const step = (currentTime: number) => {
       const elapsed = currentTime - startTime

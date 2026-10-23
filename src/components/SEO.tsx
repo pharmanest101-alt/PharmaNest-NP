@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 
-const SITE_URL = 'https://pharmanest.com.np'
+const SITE_URL = 'https://www.pharmanest.com.np'
 
 interface SEOProps {
   title?: string
@@ -16,7 +16,7 @@ export default function SEO({
   title = 'PharmaNest - Premium Skincare Pharmacy | Pokhara, Nepal',
   description = "PharmaNest is Pokhara's trusted skincare pharmacy in Devi's Fall. Premium skincare products, expert consultations, and personalized care.",
   keywords = 'skincare pharmacy Pokhara, Nepal skincare, Devi\'s Fall pharmacy, skincare products Nepal, PharmaNest, premium skincare Nepal, skincare consultation Pokhara',
-  image = `${SITE_URL}/logo.jpg`,
+  image = `${SITE_URL}/og-image.png`,
   url = SITE_URL,
   type = 'website',
   structuredData,
@@ -69,7 +69,7 @@ export const localBusinessSchema = {
   alternateName: 'PharmaNest Skincare Pharmacy',
   url: SITE_URL,
   logo: `${SITE_URL}/logo.jpg`,
-  image: `${SITE_URL}/logo.jpg`,
+  image: `${SITE_URL}/og-image.png`,
   description: "PharmaNest is Pokhara's trusted skincare pharmacy in Devi's Fall. Premium skincare products, expert consultations, and personalized care.",
   address: {
     '@type': 'PostalAddress',

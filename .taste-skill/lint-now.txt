@@ -1,0 +1,28 @@
+﻿TASTESKILL ┬╖ LINT   19 file(s)
+
+FAIL
+  [shadow] Shadow. Elements at rest carry none; only real overlays (menu, dialog, sticky bar) may.  (1├ù)
+      src/components/ImageUploader.tsx:178  shadow-2xl
+  [hairline] Thin rule / divider line. Separate with space, tone or scale; lines belong to real tables and form fields.  (10├ù)
+      src/components/ImageUploader.tsx:179  border-b
+      src/pages/Admin.tsx:188  divide-y
+      src/pages/Admin.tsx:594  divide-y
+      src/pages/Admin.tsx:763  divide-y
+      src/pages/Admin.tsx:879  border-b
+      src/pages/Admin.tsx:903  divide-y
+      ΓÇª 4 more
+
+WARN
+  [outlined-box] A 1px outlined box. Prefer a filled surface or no box.  (12├ù)
+      src/components/ImageUploader.tsx:227  border
+      src/pages/About.tsx:54  border
+      src/pages/Admin.tsx:174  border
+      src/pages/Admin.tsx:324  border
+      src/pages/Admin.tsx:453  border
+      src/pages/Admin.tsx:579  border
+      ΓÇª 6 more
+  [em-dash] Em-dash habit. Use a full stop or a comma; keep at most one or two on a page.  (1├ù)
+      (all files):0  5 em dashes
+
+RESULT: 11 FAIL, 13 WARN ΓÇö fix the FAILs before rendering.
+Interface fragments marked data-ui keep their own borders and shadows. Any other line that must keep a flagged pattern for a real reason can carry the comment taste-skill-ignore.

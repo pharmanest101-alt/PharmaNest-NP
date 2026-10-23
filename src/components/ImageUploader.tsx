@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+﻿import { useState, useRef, useCallback } from 'react'
 import Cropper from 'react-easy-crop'
 import toast from 'react-hot-toast'
 import { BsImage, BsX, BsCheck, BsTrash } from 'react-icons/bs'
@@ -131,12 +131,12 @@ export default function ImageUploader({
 
   return (
     <div className={className}>
-      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{label}</label>
+      <label className="block text-sm font-medium text-carbon mb-2">{label}</label>
 
       {/* Current Image Preview */}
       {value && !showCrop && (
         <div className="relative inline-block mb-3">
-          <img src={value} alt="Preview" className="w-32 h-32 object-cover rounded-lg border border-gray-200 dark:border-slate-700" />
+          <img src={value} alt="Preview" className="w-32 h-32 object-cover rounded-card border border-hairline" />
           <button
             type="button"
             onClick={handleRemove}
@@ -160,12 +160,12 @@ export default function ImageUploader({
           />
           <label
             htmlFor={`upload-${label}`}
-            className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors"
+            className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-frost hover:bg-hairline rounded-card text-sm font-medium text-carbon transition-colors"
           >
             <BsImage /> {value ? 'Change Photo' : 'Upload Photo'}
           </label>
           {value && (
-            <button type="button" onClick={handleRemove} className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
+            <button type="button" onClick={handleRemove} className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-card transition-colors">
               <BsTrash /> Remove
             </button>
           )}
@@ -175,15 +175,15 @@ export default function ImageUploader({
       {/* Crop Modal */}
       {showCrop && imageSrc && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
-            <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-slate-800">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Crop Image</h3>
-              <button onClick={handleCancel} className="p-1 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg">
+          <div className="bg-white rounded-card shadow-2xl w-full max-w-lg overflow-hidden" data-ui>
+            <div className="flex items-center justify-between p-4 border-b border-hairline" data-ui>
+              <h3 className="text-lg font-semibold text-carbon">Crop Image</h3>
+              <button onClick={handleCancel} className="p-1 hover:bg-frost rounded-card">
                 <BsX size={20} />
               </button>
             </div>
 
-            <div className="relative w-full h-80 bg-gray-900">
+            <div className="relative w-full h-80 bg-carbon">
               <Cropper
                 image={imageSrc}
                 crop={crop}
@@ -197,7 +197,7 @@ export default function ImageUploader({
 
             <div className="p-4 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Zoom</label>
+                <label className="block text-sm font-medium text-carbon mb-1">Zoom</label>
                 <input
                   type="range"
                   min={1}
@@ -205,7 +205,7 @@ export default function ImageUploader({
                   step={0.1}
                   value={zoom}
                   onChange={(e) => setZoom(Number(e.target.value))}
-                  className="w-full accent-emerald-600"
+                  className="w-full accent-[#047857]"
                 />
               </div>
 
