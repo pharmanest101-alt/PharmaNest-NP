@@ -229,6 +229,87 @@ export default function Contact() {
         </div>
       </section>
 
+      {/* Find us - the real place, in pictures */}
+      <section className="pb-24 md:pb-32">
+        <div className="max-w-wide mx-auto px-5 sm:px-8">
+          <ScrollReveal animation="fade-up">
+            <h2 className="text-[28px] font-semibold text-carbon tracking-[-0.02em]">Find us in Devi's Fall</h2>
+            <p className="text-[17px] text-inksoft mt-3 max-w-2xl leading-relaxed">
+              The waterfall our address is named for, Pokhara's valley, and one of its busy streets.
+            </p>
+          </ScrollReveal>
+
+          <ScrollReveal animation="fade-up" delay={70} className="mt-10">
+            <figure className="min-w-0">
+              <img
+                src="/place/devi-falls-1280.jpg"
+                srcSet="/place/devi-falls-640.jpg 640w, /place/devi-falls-1280.jpg 1280w, /place/devi-falls-1920.jpg 1920w"
+                sizes="(max-width: 639px) calc(100vw - 40px), (max-width: 1119px) calc(100vw - 64px), 1056px"
+                width={1280}
+                height={853}
+                alt="Devi's Fall in monsoon season, white water pouring over dark rock as visitors watch from a railing"
+                className="w-full aspect-[3/2] object-cover rounded-card"
+                decoding="async"
+              />
+              <figcaption className="text-[16px] text-steel mt-2.5 leading-relaxed">
+                Devi's Fall, Pokhara-17, in monsoon season.
+              </figcaption>
+            </figure>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-6">
+            <ScrollReveal animation="fade-up" delay={140}>
+              <figure className="min-w-0">
+                <img
+                  src="/place/devi-falls-platform.jpg"
+                  width={960}
+                  height={640}
+                  alt="Visitors at the brick viewing platform above the falls, looking down at turquoise water"
+                  className="w-full aspect-[3/2] object-cover rounded-card"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <figcaption className="text-[16px] text-steel mt-2.5 leading-relaxed">
+                  The viewing platform above the falls.
+                </figcaption>
+              </figure>
+            </ScrollReveal>
+            <ScrollReveal animation="fade-up" delay={210}>
+              <figure className="min-w-0">
+                <img
+                  src="/place/pokhara-valley.jpg"
+                  width={960}
+                  height={720}
+                  alt="The Pokhara valley spread below forested hills, seen from the World Peace Stupa"
+                  className="w-full aspect-[3/2] object-cover rounded-card"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <figcaption className="text-[16px] text-steel mt-2.5 leading-relaxed">
+                  Pokhara from the World Peace Stupa.
+                </figcaption>
+              </figure>
+            </ScrollReveal>
+            <ScrollReveal animation="fade-up" delay={280}>
+              <figure className="min-w-0">
+                <img
+                  src="/place/pokhara-street.jpg"
+                  width={960}
+                  height={720}
+                  alt="A busy Pokhara street lined with shops, signs and parked motorbikes"
+                  className="w-full aspect-[3/2] object-cover rounded-card"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <figcaption className="text-[16px] text-steel mt-2.5 leading-relaxed">
+                  Shops and motorbikes on a Pokhara street.
+                </figcaption>
+              </figure>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
       {/* From the shelf - real products, in motion */}
       <ProductShelf heading="From the Shelf" tileClass="bg-frost" />
     </div>

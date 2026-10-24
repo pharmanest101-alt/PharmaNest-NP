@@ -120,13 +120,22 @@ export default function Footer() {
         </div>
 
         <ScrollReveal animation="fade-up" delay={240}>
-          <div className="border-t border-hairline mt-12 pt-7 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-[14px] text-steel">{/* taste-skill-ignore */}
-            <p className="break-words">&copy; {new Date().getFullYear()} {brandName}. All rights reserved.</p>
-            <p className="break-words">
-              Managed by{' '}
-              <a href="https://veltriontech.vercel.app" className="text-carbon hover:text-accent-700 font-medium transition-colors duration-200">
-                Veltrion
-              </a>
+          <div className="border-t border-hairline mt-12 pt-7 text-[14px] text-steel">{/* taste-skill-ignore */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+              <p className="break-words">&copy; {new Date().getFullYear()} {brandName}. All rights reserved.</p>
+              <p className="break-words">
+                Managed by{' '}
+                <a href="https://veltriontech.vercel.app" className="text-carbon hover:text-accent-700 font-medium transition-colors duration-200">
+                  Veltrion
+                </a>
+              </p>
+            </div>
+            <p className="text-[16px] text-inksoft break-words leading-relaxed mt-4 max-w-[65ch]">
+              Photographs of Devi's Fall and Pokhara: “Devis Falls, Pokhara” by Ameet Ranjit Photography, “Davis Fall, Nepal-WLV-1783” by Bijay Chaurasia and “Pokhara from Peace Stupa” by Suman57baral (
+              <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 text-carbon hover:text-accent-700 transition-colors duration-200">CC BY-SA 4.0</a>
+              ); “Pokhara0413, Overload” by Sundar1 (
+              <a href="https://creativecommons.org/licenses/by-sa/3.0" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 text-carbon hover:text-accent-700 transition-colors duration-200">CC BY-SA 3.0</a>
+              ), via Wikimedia Commons.
             </p>
           </div>
         </ScrollReveal>
