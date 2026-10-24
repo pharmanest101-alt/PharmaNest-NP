@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { BsFacebook, BsInstagram, BsWhatsapp, BsTelephone, BsEnvelope, BsGeoAlt } from 'react-icons/bs'
 import { supabase } from '../lib/supabase'
@@ -21,64 +21,49 @@ export default function Footer() {
   }
 
   const s = (key: string, fallback: string) => settings[key] || fallback
-  const brandName = s('brand_name', s('site_name', 'PharmaNest'))
-
-  const socials = [
-    { key: 'facebook', href: s('facebook', ''), label: 'Facebook', icon: <BsFacebook size={18} /> },
-    { key: 'instagram', href: s('instagram', ''), label: 'Instagram', icon: <BsInstagram size={18} /> },
-    {
-      key: 'tiktok',
-      href: s('tiktok', ''),
-      label: 'TikTok',
-      icon: (
-        <svg className="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.75a8.18 8.18 0 004.76 1.52v-3.4a4.85 4.85 0 01-1-.18z" />
-        </svg>
-      ),
-    },
-    {
-      key: 'whatsapp',
-      href: s('whatsapp', '') ? `https://wa.me/${s('whatsapp', '').replace(/[^0-9]/g, '')}` : '',
-      label: 'WhatsApp',
-      icon: <BsWhatsapp size={18} />,
-    },
-  ].filter((item) => item.href)
+  const brandName = s('brand_name', 'PharmaNest')
 
   return (
-    <footer className="bg-white border-t border-hairline">{/* taste-skill-ignore */}
-      <div className="max-w-wide mx-auto px-5 sm:px-8 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-8">
+    <footer className="bg-gray-900 dark:bg-slate-950 text-gray-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand */}
-          <ScrollReveal animation="fade-up" className="md:col-span-2 min-w-0">
-            <Link to="/" className="flex items-center gap-2.5 mb-4">
-              <img src="/logo.jpg" alt="" aria-hidden="true" className="h-8 w-8 rounded-lg object-cover" />
-              <span className="text-[17px] font-semibold text-carbon">{brandName}</span>
+          <ScrollReveal animation="fade-up" className="md:col-span-2">
+            <Link to="/" className="flex items-center gap-2 mb-4">
+              <img src="/logo.jpg" alt={brandName} className="h-10 w-auto rounded-lg" />
+              <span className="text-xl font-bold font-display text-blue-300">{brandName}</span>
             </Link>
-            <p className="text-inksoft text-[16px] leading-relaxed max-w-sm mb-6">
+            <p className="text-gray-400 max-w-sm mb-6">
               {s('footer_description', 'Your trusted skincare pharmacy in the heart of Pokhara. We provide premium skincare products and expert consultations to help you achieve healthy, glowing skin.')}
             </p>
-            {socials.length > 0 && (
-              <div className="flex gap-2.5">
-                {socials.map((social) => (
-                  <a
-                    key={social.key}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 bg-frost hover:bg-accent-50 text-carbon hover:text-accent-700 rounded-card flex items-center justify-center transition-colors duration-200"
-                    aria-label={social.label}
-                  >
-                    {social.icon}
-                  </a>
-                ))}
-              </div>
-            )}
+            <div className="flex gap-3">
+              {s('facebook', '') && (
+                <a href={s('facebook', '#')} target="_blank" rel="noopener" className="w-10 h-10 bg-slate-800 hover:bg-emerald-600 rounded-lg flex items-center justify-center transition-colors">
+                  <BsFacebook />
+                </a>
+              )}
+              {s('instagram', '') && (
+                <a href={s('instagram', '#')} target="_blank" rel="noopener" className="w-10 h-10 bg-slate-800 hover:bg-emerald-600 rounded-lg flex items-center justify-center transition-colors">
+                  <BsInstagram />
+                </a>
+              )}
+              {s('tiktok', '') && (
+                <a href={s('tiktok', '#')} target="_blank" rel="noopener" className="w-10 h-10 bg-slate-800 hover:bg-emerald-600 rounded-lg flex items-center justify-center transition-colors">
+                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.75a8.18 8.18 0 004.76 1.52v-3.4a4.85 4.85 0 01-1-.18z"/></svg>
+                </a>
+              )}
+              {s('whatsapp', '') && (
+                <a href={`https://wa.me/${s('whatsapp', '').replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener" className="w-10 h-10 bg-slate-800 hover:bg-emerald-600 rounded-lg flex items-center justify-center transition-colors">
+                  <BsWhatsapp />
+                </a>
+              )}
+            </div>
           </ScrollReveal>
 
-          {/* Quick links */}
-          <ScrollReveal animation="fade-up" delay={80} className="min-w-0">
-            <h3 className="text-[14px] font-semibold text-carbon mb-4">Quick Links</h3>
-            <ul className="space-y-2.5">
+          {/* Quick Links */}
+          <ScrollReveal animation="fade-up" delay={100}>
+            <h3 className="text-white font-semibold mb-4">Quick Links</h3>
+            <ul className="space-y-2">
               {[
                 { name: 'Home', path: '/' },
                 { name: 'About Us', path: '/about' },
@@ -87,7 +72,7 @@ export default function Footer() {
                 { name: 'Contact', path: '/contact' },
               ].map((link) => (
                 <li key={link.path}>
-                  <Link to={link.path} className="text-[16px] text-inksoft hover:text-accent-700 transition-colors duration-200">
+                  <Link to={link.path} className="hover:text-emerald-400 transition-colors text-sm">
                     {link.name}
                   </Link>
                 </li>
@@ -96,47 +81,29 @@ export default function Footer() {
           </ScrollReveal>
 
           {/* Contact */}
-          <ScrollReveal animation="fade-up" delay={160} className="min-w-0">
-            <h3 className="text-[14px] font-semibold text-carbon mb-4">Contact Us</h3>
-            <ul className="space-y-3 text-[16px] text-inksoft">
-              <li className="flex items-start gap-2.5">
-                <BsGeoAlt className="text-accent-700 mt-1 shrink-0" aria-hidden="true" />
-                <span className="break-words">{s('address', "Devi's Fall, Pokhara-17, Kaski, Nepal")}</span>
+          <ScrollReveal animation="fade-up" delay={200}>
+            <h3 className="text-white font-semibold mb-4">Contact Us</h3>
+            <ul className="space-y-3 text-sm">
+              <li className="flex items-start gap-2">
+                <BsGeoAlt className="text-emerald-400 mt-1 flex-shrink-0" />
+                <span>{s('address', "Devi's Fall, Pokhara-17, Kaski, Nepal")}</span>
               </li>
-              <li className="flex items-center gap-2.5">
-                <BsTelephone className="text-accent-700 shrink-0" aria-hidden="true" />
-                <a href={`tel:${s('phone', '+977-9865489647').replace(/[^0-9+]/g, '')}`} className="min-w-0 break-words hover:text-accent-700 transition-colors duration-200">
-                  {s('phone', '+977-9865489647')}
-                </a>
+              <li className="flex items-center gap-2">
+                <BsTelephone className="text-emerald-400 flex-shrink-0" />
+                <span>{s('phone', '+977-9865489647')}</span>
               </li>
-              <li className="flex items-center gap-2.5">
-                <BsEnvelope className="text-accent-700 shrink-0" aria-hidden="true" />
-                <a href={`mailto:${s('email', 'pharmanest101@gmail.com')}`} className="min-w-0 break-words hover:text-accent-700 transition-colors duration-200">
-                  {s('email', 'pharmanest101@gmail.com')}
-                </a>
+              <li className="flex items-center gap-2">
+                <BsEnvelope className="text-emerald-400 flex-shrink-0" />
+                <span>{s('email', 'pharmanest101@gmail.com')}</span>
               </li>
             </ul>
           </ScrollReveal>
         </div>
 
-        <ScrollReveal animation="fade-up" delay={240}>
-          <div className="border-t border-hairline mt-12 pt-7 text-[14px] text-steel">{/* taste-skill-ignore */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-              <p className="break-words">&copy; {new Date().getFullYear()} {brandName}. All rights reserved.</p>
-              <p className="break-words">
-                Managed by{' '}
-                <a href="https://veltriontech.vercel.app" className="text-carbon hover:text-accent-700 font-medium transition-colors duration-200">
-                  Veltrion
-                </a>
-              </p>
-            </div>
-            <p className="text-[16px] text-inksoft break-words leading-relaxed mt-4 max-w-[65ch]">
-              Photographs of Devi's Fall and Pokhara: “Devis Falls, Pokhara” by Ameet Ranjit Photography, “Davis Fall, Nepal-WLV-1783” by Bijay Chaurasia and “Pokhara from Peace Stupa” by Suman57baral (
-              <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 text-carbon hover:text-accent-700 transition-colors duration-200">CC BY-SA 4.0</a>
-              ); “Pokhara0413, Overload” by Sundar1 (
-              <a href="https://creativecommons.org/licenses/by-sa/3.0" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 text-carbon hover:text-accent-700 transition-colors duration-200">CC BY-SA 3.0</a>
-              ), via Wikimedia Commons.
-            </p>
+        <ScrollReveal animation="fade-up" delay={300}>
+          <div className="border-t border-slate-800 mt-12 pt-8 text-center text-sm text-gray-500">
+            <p>&copy; {new Date().getFullYear()} {brandName}. All rights reserved.</p>
+            <p><strong>Managed by:</strong><a href="https://veltriontech.vercel.app"> Veltrion</a></p>
           </div>
         </ScrollReveal>
       </div>

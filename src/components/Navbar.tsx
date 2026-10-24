@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { FiMenu, FiX } from 'react-icons/fi'
 import { supabase } from '../lib/supabase'
@@ -18,9 +18,8 @@ export default function Navbar() {
   const location = useLocation()
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 8)
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
+    const handleScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -41,80 +40,80 @@ export default function Navbar() {
     }
   }
 
-  const brandName = settings.brand_name || settings.site_name || 'PharmaNest'
+  const brandName = settings.brand_name || 'PharmaNest'
   const ctaText = settings.nav_cta_text || 'Shop Now'
-
-  const linkClass = (active: boolean) =>
-    `px-3 py-2 text-[14px] transition-colors duration-200 ${
-      active ? 'text-carbon font-semibold' : 'text-steel hover:text-carbon'
-    }`
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 bg-white transition-[border-color,box-shadow] duration-200 ${
-        scrolled ? 'border-b border-hairline' /* taste-skill-ignore */ : 'border-b border-transparent'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? 'bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-lg border-b border-gray-100 dark:border-slate-800'
+          : 'bg-transparent'
       }`}
     >
-      <div className="max-w-wide mx-auto px-5 sm:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Wordmark */}
-          <Link to="/" className="flex items-center gap-2.5 shrink-0">
-            <img src="/logo.jpg" alt="" aria-hidden="true" className="h-8 w-8 rounded-lg object-cover" />
-            <span className="text-[17px] font-semibold text-carbon tracking-[-0.01em]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2 group">
+            <img src="/logo.jpg" alt={brandName} className="h-10 w-auto rounded-lg" />
+            <span className="text-xl font-bold font-display text-blue-950 dark:text-blue-300">
               {brandName}
             </span>
           </Link>
 
-          {/* Desktop links */}
+          {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={linkClass(location.pathname === link.path)}
-                aria-current={location.pathname === link.path ? 'page' : undefined}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  location.pathname === link.path
+                    ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400'
+                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800'
+                }`}
               >
                 {link.name}
               </Link>
             ))}
           </div>
 
-          {/* Action + mobile toggle */}
-          <div className="flex items-center gap-2">
-            <Link to="/products" className="hidden md:inline-flex btn-primary text-[14px] px-5 py-2.5">
+          {/* CTA + Mobile Toggle */}
+          <div className="flex items-center gap-3">
+            <Link to="/products" className="hidden md:inline-flex btn-primary text-sm">
               {ctaText}
             </Link>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2.5 -mr-2.5 text-carbon apple-press"
-              aria-label={isOpen ? 'Close menu' : 'Open menu'}
-              aria-expanded={isOpen}
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
             >
-              {isOpen ? <FiX size={22} /> : <FiMenu size={22} />}
+              {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white border-t border-hairline animate-fade-in-up">{/* taste-skill-ignore */}
-          <div className="px-5 py-3">
+        <div className="md:hidden bg-white dark:bg-slate-950 border-t border-gray-100 dark:border-slate-800 shadow-xl animate-fade-in-up">
+          <div className="px-4 py-4 space-y-1">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`block py-3 text-[17px] transition-colors duration-200 ${
+                className={`block px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                   location.pathname === link.path
-                    ? 'text-carbon font-semibold'
-                    : 'text-steel'
+                    ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400'
+                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800'
                 }`}
-                aria-current={location.pathname === link.path ? 'page' : undefined}
               >
                 {link.name}
               </Link>
             ))}
-            <Link to="/products" className="btn-primary block text-center text-[15px] mt-3 mb-2">
+            <Link
+              to="/products"
+              className="block btn-primary text-center text-sm mt-2"
+            >
               {ctaText}
             </Link>
           </div>

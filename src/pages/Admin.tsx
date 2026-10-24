@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { BsGrid, BsPeople, BsGear, BsEnvelope, BsImage, BsBox, BsPlus, BsPencil, BsTrash, BsArrowLeft, BsCheck, BsX, BsEye, BsEyeSlash, BsShieldCheck } from 'react-icons/bs'
@@ -36,18 +36,18 @@ function AdminLogin({ onLogin }: { onLogin: () => void }) {
   }
 
   return (
-    <div className="min-h-svh bg-frost flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2 mb-4">
-            <img src="/logo.jpg" alt="PharmaNest" className="h-14 w-auto rounded-card" />
+            <img src="/logo.jpg" alt="PharmaNest" className="h-14 w-auto rounded-xl" />
           </Link>
-          <h1 className="text-2xl font-semibold text-carbon">Admin Panel</h1>
-          <p className="text-steel mt-1">PharmaNest Management</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Admin Panel</h1>
+          <p className="text-gray-500 mt-1">PharmaNest Management</p>
         </div>
         <form onSubmit={handleSubmit} className="card p-8 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-carbon mb-2">Admin Password</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Admin Password</label>
             <input
               type="password"
               value={password}
@@ -89,26 +89,23 @@ function Dashboard() {
   }
 
   const cards = [
-    { title: 'Products', value: stats.products, link: '/admin/products', hue: false },
-    { title: 'Team Members', value: stats.team, link: '/admin/team', hue: false },
-    { title: 'Messages', value: stats.messages, link: '/admin/messages', hue: false },
-    { title: 'Unread', value: stats.unread, link: '/admin/messages', hue: true },
+    { title: 'Products', value: stats.products, icon: BsBox, color: 'from-emerald-500 to-teal-500', link: '/admin/products' },
+    { title: 'Team Members', value: stats.team, icon: BsPeople, color: 'from-blue-500 to-indigo-500', link: '/admin/team' },
+    { title: 'Messages', value: stats.messages, icon: BsEnvelope, color: 'from-purple-500 to-pink-500', link: '/admin/messages' },
+    { title: 'Unread', value: stats.unread, icon: BsEnvelope, color: 'from-orange-500 to-red-500', link: '/admin/messages' },
   ]
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold text-carbon mb-6">Dashboard</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Dashboard</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {cards.map((card, i) => (
-          <Link
-            key={i}
-            to={card.link}
-            className="bg-white rounded-card border border-hairline p-6 hover:bg-white/60 transition-colors duration-200" /* taste-skill-ignore */
-          >
-            <p className={`text-[40px] font-semibold leading-none tracking-[-0.02em] ${card.hue && card.value > 0 ? 'text-accent-700' : 'text-carbon'}`}>
-              {card.value}
-            </p>
-            <p className="text-[15px] text-steel mt-3">{card.title}</p>
+          <Link key={i} to={card.link} className="group">
+            <div className={`bg-gradient-to-r ${card.color} rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition-all hover:-translate-y-1`}>
+              <card.icon className="text-3xl mb-3 opacity-80" />
+              <p className="text-3xl font-bold">{card.value}</p>
+              <p className="text-sm opacity-80">{card.title}</p>
+            </div>
           </Link>
         ))}
       </div>
@@ -160,7 +157,7 @@ function ProductsAdmin() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-carbon">Products</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Products</h2>
         <button onClick={() => { setEditingProduct(null); setShowForm(true) }} className="btn-primary inline-flex items-center gap-2">
           <BsPlus /> Add Product
         </button>
@@ -171,35 +168,35 @@ function ProductsAdmin() {
       )}
 
       {loading ? (
-        <div className="text-center py-10"><div className="animate-spin w-8 h-8 border-4 border-accent-700 border-t-transparent rounded-full mx-auto" /></div>
+        <div className="text-center py-10"><div className="animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full mx-auto" /></div>
       ) : (
         <div className="card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-frost">
+              <thead className="bg-gray-50 dark:bg-slate-800">
                 <tr>
-                  <th className="text-left px-4 py-3 font-medium text-steel">Name</th>
-                  <th className="text-left px-4 py-3 font-medium text-steel">Category</th>
-                  <th className="text-left px-4 py-3 font-medium text-steel">MRP</th>
-                  <th className="text-left px-4 py-3 font-medium text-steel">Active</th>
-                  <th className="text-right px-4 py-3 font-medium text-steel">Actions</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Name</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Category</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">MRP</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Active</th>
+                  <th className="text-right px-4 py-3 font-medium text-gray-500">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-hairline" data-ui>
+              <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
                 {products.map((product) => (
-                  <tr key={product.id} className="hover:bg-frost">
-                    <td className="px-4 py-3 font-medium text-carbon">{product.name}</td>
-                    <td className="px-4 py-3 text-steel">{product.category}</td>
-                    <td className="px-4 py-3 text-steel">{product.mrp != null ? `NPR ${product.mrp}` : '-'}</td>
+                  <tr key={product.id} className="hover:bg-gray-50 dark:hover:bg-slate-800/50">
+                    <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{product.name}</td>
+                    <td className="px-4 py-3 text-gray-600 dark:text-gray-400">{product.category}</td>
+                    <td className="px-4 py-3 text-gray-600 dark:text-gray-400">{product.mrp != null ? `NPR ${product.mrp}` : '-'}</td>
                     <td className="px-4 py-3">
-                      <button onClick={() => toggleActive(product.id, product.is_active)} className={`p-1 rounded ${product.is_active ? 'text-accent-700' : 'text-steel'}`}>
+                      <button onClick={() => toggleActive(product.id, product.is_active)} className={`p-1 rounded ${product.is_active ? 'text-green-600' : 'text-gray-400'}`}>
                         {product.is_active ? <BsEye /> : <BsEyeSlash />}
                       </button>
                     </td>
                     <td className="px-4 py-3 text-right">
                       <div className="flex gap-2 justify-end">
-                        <button onClick={() => { setEditingProduct(product); setShowForm(true) }} className="p-2 hover:bg-frost rounded-card transition-colors text-accent-700"><BsPencil /></button>
-                        <button onClick={() => handleDelete(product.id)} className="p-2 hover:bg-frost rounded-card transition-colors text-red-600"><BsTrash /></button>
+                        <button onClick={() => { setEditingProduct(product); setShowForm(true) }} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg transition-colors text-blue-600"><BsPencil /></button>
+                        <button onClick={() => handleDelete(product.id)} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg transition-colors text-red-600"><BsTrash /></button>
                       </div>
                     </td>
                   </tr>
@@ -207,7 +204,7 @@ function ProductsAdmin() {
               </tbody>
             </table>
           </div>
-          {products.length === 0 && <p className="text-center py-10 text-steel">No products yet.</p>}
+          {products.length === 0 && <p className="text-center py-10 text-gray-500">No products yet.</p>}
         </div>
       )}
     </div>
@@ -226,14 +223,14 @@ function ProductForm({ product, onSave, onCancel }: { product: Product | null; o
 
   return (
     <div className="card p-6 mb-6">
-      <h3 className="text-lg font-semibold text-carbon mb-4">{product ? 'Edit Product' : 'Add Product'}</h3>
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{product ? 'Edit Product' : 'Add Product'}</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-carbon mb-1">Product Name</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Product Name</label>
           <input placeholder="e.g. Vitamin C Serum" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input-field" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-carbon mb-1">Category</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
           <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="input-field">
             <option value="Cleanser">Cleanser</option>
             <option value="Moisturizer">Moisturizer</option>
@@ -246,7 +243,7 @@ function ProductForm({ product, onSave, onCancel }: { product: Product | null; o
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-carbon mb-1">MRP (NPR)</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">MRP (NPR)</label>
           <input type="number" placeholder="e.g. 1200" value={form.mrp} onChange={(e) => setForm({ ...form, mrp: e.target.value ? Number(e.target.value) : '' })} className="input-field" />
         </div>
         <div className="md:col-span-2">
@@ -260,7 +257,7 @@ function ProductForm({ product, onSave, onCancel }: { product: Product | null; o
           />
         </div>
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-carbon mb-1">Description</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
           <textarea placeholder="Brief description of the product" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input-field" rows={3} />
         </div>
       </div>
@@ -309,37 +306,37 @@ function TeamAdmin() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-carbon">Team Members</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Team Members</h2>
         <button onClick={() => { setEditingMember(null); setShowForm(true) }} className="btn-primary inline-flex items-center gap-2"><BsPlus /> Add Member</button>
       </div>
 
       {showForm && (
         <div className="card p-6 mb-6">
-          <h3 className="text-lg font-semibold text-carbon mb-4">{editingMember ? 'Edit Member' : 'Add Member'}</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{editingMember ? 'Edit Member' : 'Add Member'}</h3>
           <TeamForm member={editingMember} onSave={handleSave} onCancel={() => { setShowForm(false); setEditingMember(null) }} />
         </div>
       )}
 
       {loading ? (
-        <div className="text-center py-10"><div className="animate-spin w-8 h-8 border-4 border-accent-700 border-t-transparent rounded-full mx-auto" /></div>
+        <div className="text-center py-10"><div className="animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full mx-auto" /></div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {members.map((member) => (
             <div key={member.id} className="card p-6">
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="text-lg font-semibold text-carbon">{member.name}</h3>
-                  <p className="text-accent-700 text-sm">{member.role}</p>
-                  {member.bio && <p className="text-steel text-sm mt-2">{member.bio}</p>}
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{member.name}</h3>
+                  <p className="text-emerald-600 text-sm">{member.role}</p>
+                  {member.bio && <p className="text-gray-500 text-sm mt-2">{member.bio}</p>}
                 </div>
                 <div className="flex gap-2">
-                  <button onClick={() => { setEditingMember(member); setShowForm(true) }} className="p-2 hover:bg-frost rounded-card text-accent-700"><BsPencil /></button>
-                  <button onClick={() => handleDelete(member.id)} className="p-2 hover:bg-frost rounded-card text-red-600"><BsTrash /></button>
+                  <button onClick={() => { setEditingMember(member); setShowForm(true) }} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg text-blue-600"><BsPencil /></button>
+                  <button onClick={() => handleDelete(member.id)} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg text-red-600"><BsTrash /></button>
                 </div>
               </div>
             </div>
           ))}
-          {members.length === 0 && <p className="text-center py-10 text-steel col-span-2">No team members yet.</p>}
+          {members.length === 0 && <p className="text-center py-10 text-gray-500 col-span-2">No team members yet.</p>}
         </div>
       )}
     </div>
@@ -361,19 +358,19 @@ function TeamForm({ member, onSave, onCancel }: { member: TeamMember | null; onS
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
-        <label className="block text-sm font-medium text-carbon mb-1">Full Name</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
         <input placeholder="e.g. Sandeep Poudel" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input-field" />
       </div>
       <div>
-        <label className="block text-sm font-medium text-carbon mb-1">Role</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Role</label>
         <input placeholder="e.g. Founder & Skincare Specialist" value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })} className="input-field" />
       </div>
       <div>
-        <label className="block text-sm font-medium text-carbon mb-1">Email</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
         <input placeholder="e.g. name@example.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="input-field" />
       </div>
       <div>
-        <label className="block text-sm font-medium text-carbon mb-1">Phone</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone</label>
         <input placeholder="e.g. +977-9865489647" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="input-field" />
       </div>
       <div className="md:col-span-2">
@@ -387,11 +384,11 @@ function TeamForm({ member, onSave, onCancel }: { member: TeamMember | null; onS
         />
       </div>
       <div className="md:col-span-2">
-        <label className="block text-sm font-medium text-carbon mb-1">Bio</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Bio</label>
         <textarea placeholder="Short bio about this team member" value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} className="input-field" rows={3} />
       </div>
       <div>
-        <label className="block text-sm font-medium text-carbon mb-1">Display Order</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Display Order</label>
         <input type="number" placeholder="0" value={form.display_order} onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })} className="input-field" />
       </div>
       <div className="flex gap-3 items-end">
@@ -439,7 +436,7 @@ function BannersAdmin() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-carbon">Banners</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Banners</h2>
         <button onClick={() => { setEditingBanner(null); setShowForm(true) }} className="btn-primary inline-flex items-center gap-2"><BsPlus /> Add Banner</button>
       </div>
 
@@ -450,25 +447,25 @@ function BannersAdmin() {
       )}
 
       {loading ? (
-        <div className="text-center py-10"><div className="animate-spin w-8 h-8 border-4 border-accent-700 border-t-transparent rounded-full mx-auto" /></div>
+        <div className="text-center py-10"><div className="animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full mx-auto" /></div>
       ) : (
         <div className="space-y-4">
           {banners.map((banner) => (
             <div key={banner.id} className="card p-6">
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="text-lg font-semibold text-carbon">{banner.title}</h3>
-                  {banner.subtitle && <p className="text-steel text-sm">{banner.subtitle}</p>}
-                  <p className="text-xs text-steel mt-1">Order: {banner.display_order} | Active: {banner.is_active ? 'Yes' : 'No'}</p>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{banner.title}</h3>
+                  {banner.subtitle && <p className="text-gray-500 text-sm">{banner.subtitle}</p>}
+                  <p className="text-xs text-gray-400 mt-1">Order: {banner.display_order} | Active: {banner.is_active ? 'Yes' : 'No'}</p>
                 </div>
                 <div className="flex gap-2">
-                  <button onClick={() => { setEditingBanner(banner); setShowForm(true) }} className="p-2 hover:bg-frost rounded-card text-accent-700"><BsPencil /></button>
-                  <button onClick={() => handleDelete(banner.id)} className="p-2 hover:bg-frost rounded-card text-red-600"><BsTrash /></button>
+                  <button onClick={() => { setEditingBanner(banner); setShowForm(true) }} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg text-blue-600"><BsPencil /></button>
+                  <button onClick={() => handleDelete(banner.id)} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg text-red-600"><BsTrash /></button>
                 </div>
               </div>
             </div>
           ))}
-          {banners.length === 0 && <p className="text-center py-10 text-steel">No banners yet.</p>}
+          {banners.length === 0 && <p className="text-center py-10 text-gray-500">No banners yet.</p>}
         </div>
       )}
     </div>
@@ -488,30 +485,30 @@ function BannerForm({ banner, onSave, onCancel }: { banner: Banner | null; onSav
 
   return (
     <div>
-      <h3 className="text-lg font-semibold text-carbon mb-4">{banner ? 'Edit Banner' : 'Add Banner'}</h3>
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{banner ? 'Edit Banner' : 'Add Banner'}</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-carbon mb-1">Banner Title</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Banner Title</label>
           <input placeholder="e.g. Welcome to PharmaNest" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="input-field" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-carbon mb-1">Subtitle</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subtitle</label>
           <input placeholder="e.g. Your Trusted Skincare Pharmacy" value={form.subtitle} onChange={(e) => setForm({ ...form, subtitle: e.target.value })} className="input-field" />
         </div>
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-carbon mb-1">Image URL</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Image URL</label>
           <input placeholder="Paste image URL here" value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} className="input-field" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-carbon mb-1">Button Text</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Button Text</label>
           <input placeholder="e.g. Explore Products" value={form.button_text} onChange={(e) => setForm({ ...form, button_text: e.target.value })} className="input-field" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-carbon mb-1">Button Link</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Button Link</label>
           <input placeholder="e.g. /products" value={form.button_link} onChange={(e) => setForm({ ...form, button_link: e.target.value })} className="input-field" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-carbon mb-1">Display Order</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Display Order</label>
           <input type="number" placeholder="0" value={form.display_order} onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })} className="input-field" />
         </div>
       </div>
@@ -565,7 +562,7 @@ function StatsAdmin() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-carbon">Stats</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Stats</h2>
         <button onClick={() => { setEditingStat(null); setShowForm(true) }} className="btn-primary inline-flex items-center gap-2">
           <BsPlus /> Add Stat
         </button>
@@ -576,37 +573,37 @@ function StatsAdmin() {
       )}
 
       {loading ? (
-        <div className="text-center py-10"><div className="animate-spin w-8 h-8 border-4 border-accent-700 border-t-transparent rounded-full mx-auto" /></div>
+        <div className="text-center py-10"><div className="animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full mx-auto" /></div>
       ) : (
         <div className="card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-frost">
+              <thead className="bg-gray-50 dark:bg-slate-800">
                 <tr>
-                  <th className="text-left px-4 py-3 font-medium text-steel">Label</th>
-                  <th className="text-left px-4 py-3 font-medium text-steel">Value</th>
-                  <th className="text-left px-4 py-3 font-medium text-steel">Suffix</th>
-                  <th className="text-left px-4 py-3 font-medium text-steel">Order</th>
-                  <th className="text-left px-4 py-3 font-medium text-steel">Active</th>
-                  <th className="text-right px-4 py-3 font-medium text-steel">Actions</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Label</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Value</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Suffix</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Order</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Active</th>
+                  <th className="text-right px-4 py-3 font-medium text-gray-500">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-hairline" data-ui>
+              <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
                 {stats.map((stat) => (
-                  <tr key={stat.id} className="hover:bg-frost">
-                    <td className="px-4 py-3 font-medium text-carbon">{stat.label}</td>
-                    <td className="px-4 py-3 text-accent-700 font-medium">{stat.value}</td>
-                    <td className="px-4 py-3 text-steel">{stat.suffix}</td>
-                    <td className="px-4 py-3 text-steel">{stat.display_order}</td>
+                  <tr key={stat.id} className="hover:bg-gray-50 dark:hover:bg-slate-800/50">
+                    <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{stat.label}</td>
+                    <td className="px-4 py-3 text-emerald-600 font-medium">{stat.value}</td>
+                    <td className="px-4 py-3 text-gray-600 dark:text-gray-400">{stat.suffix}</td>
+                    <td className="px-4 py-3 text-gray-500">{stat.display_order}</td>
                     <td className="px-4 py-3">
-                      <button onClick={() => toggleActive(stat.id, stat.is_active)} className={`p-1 rounded ${stat.is_active ? 'text-accent-700' : 'text-steel'}`}>
+                      <button onClick={() => toggleActive(stat.id, stat.is_active)} className={`p-1 rounded ${stat.is_active ? 'text-green-600' : 'text-gray-400'}`}>
                         {stat.is_active ? <BsEye /> : <BsEyeSlash />}
                       </button>
                     </td>
                     <td className="px-4 py-3 text-right">
                       <div className="flex gap-2 justify-end">
-                        <button onClick={() => { setEditingStat(stat); setShowForm(true) }} className="p-2 hover:bg-frost rounded-card transition-colors text-accent-700"><BsPencil /></button>
-                        <button onClick={() => handleDelete(stat.id)} className="p-2 hover:bg-frost rounded-card transition-colors text-red-600"><BsTrash /></button>
+                        <button onClick={() => { setEditingStat(stat); setShowForm(true) }} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg transition-colors text-blue-600"><BsPencil /></button>
+                        <button onClick={() => handleDelete(stat.id)} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg transition-colors text-red-600"><BsTrash /></button>
                       </div>
                     </td>
                   </tr>
@@ -614,7 +611,7 @@ function StatsAdmin() {
               </tbody>
             </table>
           </div>
-          {stats.length === 0 && <p className="text-center py-10 text-steel">No stats yet. Add your first stat!</p>}
+          {stats.length === 0 && <p className="text-center py-10 text-gray-500">No stats yet. Add your first stat!</p>}
         </div>
       )}
     </div>
@@ -632,22 +629,22 @@ function StatForm({ stat, onSave, onCancel }: { stat: Stat | null; onSave: (s: P
 
   return (
     <div className="card p-6 mb-6">
-      <h3 className="text-lg font-semibold text-carbon mb-4">{stat ? 'Edit Stat' : 'Add Stat'}</h3>
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{stat ? 'Edit Stat' : 'Add Stat'}</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-carbon mb-1">Label</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Label</label>
           <input placeholder="e.g. Happy Customers" value={form.label} onChange={(e) => setForm({ ...form, label: e.target.value })} className="input-field" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-carbon mb-1">Value</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Value</label>
           <input type="number" placeholder="e.g. 5000" value={form.value} onChange={(e) => setForm({ ...form, value: Number(e.target.value) })} className="input-field" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-carbon mb-1">Suffix</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Suffix</label>
           <input placeholder="e.g. +" value={form.suffix} onChange={(e) => setForm({ ...form, suffix: e.target.value })} className="input-field" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-carbon mb-1">Display Order</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Display Order</label>
           <input type="number" placeholder="0" value={form.display_order} onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })} className="input-field" />
         </div>
       </div>
@@ -717,7 +714,7 @@ function FeaturesAdmin() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-carbon">Features</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Features</h2>
         <button onClick={() => { setEditingFeature(null); setShowForm(true) }} className="btn-primary inline-flex items-center gap-2">
           <BsPlus /> Add Feature
         </button>
@@ -728,10 +725,10 @@ function FeaturesAdmin() {
           <button
             key={section}
             onClick={() => setFilterSection(section)}
-            className={`px-4 py-2 rounded-pill text-sm font-medium transition-colors duration-200 apple-press ${
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
               filterSection === section
-                ? 'bg-carbon text-white'
-                : 'bg-white text-steel hover:text-carbon border border-hairline'
+                ? 'bg-emerald-600 text-white'
+                : 'bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700'
             }`}
           >
             {section === 'all' ? 'All' : section === 'home' ? 'Home (Why Choose Us)' : 'About (Values)'}
@@ -744,39 +741,39 @@ function FeaturesAdmin() {
       )}
 
       {loading ? (
-        <div className="text-center py-10"><div className="animate-spin w-8 h-8 border-4 border-accent-700 border-t-transparent rounded-full mx-auto" /></div>
+        <div className="text-center py-10"><div className="animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full mx-auto" /></div>
       ) : (
         <div className="card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-frost">
+              <thead className="bg-gray-50 dark:bg-slate-800">
                 <tr>
-                  <th className="text-left px-4 py-3 font-medium text-steel">Section</th>
-                  <th className="text-left px-4 py-3 font-medium text-steel">Icon</th>
-                  <th className="text-left px-4 py-3 font-medium text-steel">Title</th>
-                  <th className="text-left px-4 py-3 font-medium text-steel">Description</th>
-                  <th className="text-left px-4 py-3 font-medium text-steel">Order</th>
-                  <th className="text-left px-4 py-3 font-medium text-steel">Active</th>
-                  <th className="text-right px-4 py-3 font-medium text-steel">Actions</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Section</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Icon</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Title</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Description</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Order</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Active</th>
+                  <th className="text-right px-4 py-3 font-medium text-gray-500">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-hairline" data-ui>
+              <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
                 {filtered.map((feature) => (
-                  <tr key={feature.id} className="hover:bg-frost">
-                    <td className="px-4 py-3"><span className="px-2 py-1 rounded-full text-xs bg-accent-50 text-accent-700">{feature.section}</span></td>
-                    <td className="px-4 py-3 text-steel">{feature.icon}</td>
-                    <td className="px-4 py-3 font-medium text-carbon">{feature.title}</td>
-                    <td className="px-4 py-3 text-steel max-w-xs truncate">{feature.description}</td>
-                    <td className="px-4 py-3 text-steel">{feature.display_order}</td>
+                  <tr key={feature.id} className="hover:bg-gray-50 dark:hover:bg-slate-800/50">
+                    <td className="px-4 py-3"><span className="px-2 py-1 rounded-full text-xs bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">{feature.section}</span></td>
+                    <td className="px-4 py-3 text-gray-600 dark:text-gray-400">{feature.icon}</td>
+                    <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{feature.title}</td>
+                    <td className="px-4 py-3 text-gray-600 dark:text-gray-400 max-w-xs truncate">{feature.description}</td>
+                    <td className="px-4 py-3 text-gray-500">{feature.display_order}</td>
                     <td className="px-4 py-3">
-                      <button onClick={() => toggleActive(feature.id, feature.is_active)} className={`p-1 rounded ${feature.is_active ? 'text-accent-700' : 'text-steel'}`}>
+                      <button onClick={() => toggleActive(feature.id, feature.is_active)} className={`p-1 rounded ${feature.is_active ? 'text-green-600' : 'text-gray-400'}`}>
                         {feature.is_active ? <BsEye /> : <BsEyeSlash />}
                       </button>
                     </td>
                     <td className="px-4 py-3 text-right">
                       <div className="flex gap-2 justify-end">
-                        <button onClick={() => { setEditingFeature(feature); setShowForm(true) }} className="p-2 hover:bg-frost rounded-card transition-colors text-accent-700"><BsPencil /></button>
-                        <button onClick={() => handleDelete(feature.id)} className="p-2 hover:bg-frost rounded-card transition-colors text-red-600"><BsTrash /></button>
+                        <button onClick={() => { setEditingFeature(feature); setShowForm(true) }} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg transition-colors text-blue-600"><BsPencil /></button>
+                        <button onClick={() => handleDelete(feature.id)} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg transition-colors text-red-600"><BsTrash /></button>
                       </div>
                     </td>
                   </tr>
@@ -784,7 +781,7 @@ function FeaturesAdmin() {
               </tbody>
             </table>
           </div>
-          {filtered.length === 0 && <p className="text-center py-10 text-steel">No features yet.</p>}
+          {filtered.length === 0 && <p className="text-center py-10 text-gray-500">No features yet.</p>}
         </div>
       )}
     </div>
@@ -803,17 +800,17 @@ function FeatureForm({ feature, onSave, onCancel }: { feature: Feature | null; o
 
   return (
     <div className="card p-6 mb-6">
-      <h3 className="text-lg font-semibold text-carbon mb-4">{feature ? 'Edit Feature' : 'Add Feature'}</h3>
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{feature ? 'Edit Feature' : 'Add Feature'}</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-carbon mb-1">Section</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Section</label>
           <select value={form.section} onChange={(e) => setForm({ ...form, section: e.target.value })} className="input-field">
             <option value="home">Home (Why Choose Us)</option>
             <option value="about">About (Values)</option>
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-carbon mb-1">Icon</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Icon</label>
           <select value={form.icon} onChange={(e) => setForm({ ...form, icon: e.target.value })} className="input-field">
             {featureIcons.map((ic) => (
               <option key={ic.value} value={ic.value}>{ic.label}</option>
@@ -821,15 +818,15 @@ function FeatureForm({ feature, onSave, onCancel }: { feature: Feature | null; o
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-carbon mb-1">Title</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
           <input placeholder="e.g. Authentic Products" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="input-field" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-carbon mb-1">Display Order</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Display Order</label>
           <input type="number" placeholder="0" value={form.display_order} onChange={(e) => setForm({ ...form, display_order: Number(e.target.value) })} className="input-field" />
         </div>
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-carbon mb-1">Description</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
           <textarea placeholder="Brief description of this feature" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input-field" rows={3} />
         </div>
       </div>
@@ -869,19 +866,19 @@ function MessagesAdmin() {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold text-carbon mb-6">Messages</h2>
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Messages</h2>
 
       {loading ? (
-        <div className="text-center py-10"><div className="animate-spin w-8 h-8 border-4 border-accent-700 border-t-transparent rounded-full mx-auto" /></div>
+        <div className="text-center py-10"><div className="animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full mx-auto" /></div>
       ) : selectedMessage ? (
         <div className="card p-6">
-          <button onClick={() => setSelectedMessage(null)} className="inline-flex items-center gap-2 text-sm text-steel hover:text-carbon mb-4"><BsArrowLeft /> Back to messages</button>
-          <div className="border-b border-hairline pb-4 mb-4" data-ui>
-            <h3 className="text-lg font-semibold text-carbon">{selectedMessage.subject || 'No Subject'}</h3>
-            <p className="text-sm text-steel">From: {selectedMessage.name} ({selectedMessage.email})</p>
-            <p className="text-xs text-steel">{new Date(selectedMessage.created_at).toLocaleString()}</p>
+          <button onClick={() => setSelectedMessage(null)} className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 mb-4"><BsArrowLeft /> Back to messages</button>
+          <div className="border-b border-gray-100 dark:border-slate-800 pb-4 mb-4">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{selectedMessage.subject || 'No Subject'}</h3>
+            <p className="text-sm text-gray-500">From: {selectedMessage.name} ({selectedMessage.email})</p>
+            <p className="text-xs text-gray-400">{new Date(selectedMessage.created_at).toLocaleString()}</p>
           </div>
-          <p className="text-carbon whitespace-pre-wrap">{selectedMessage.message}</p>
+          <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{selectedMessage.message}</p>
           <div className="flex gap-3 mt-6">
             <a href={`mailto:${selectedMessage.email}`} className="btn-primary text-sm">Reply via Email</a>
             <button onClick={() => handleDelete(selectedMessage.id)} className="btn-secondary text-sm text-red-600">Delete</button>
@@ -891,36 +888,36 @@ function MessagesAdmin() {
         <div className="card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-frost">
+              <thead className="bg-gray-50 dark:bg-slate-800">
                 <tr>
-                  <th className="text-left px-4 py-3 font-medium text-steel">From</th>
-                  <th className="text-left px-4 py-3 font-medium text-steel">Subject</th>
-                  <th className="text-left px-4 py-3 font-medium text-steel">Date</th>
-                  <th className="text-left px-4 py-3 font-medium text-steel">Status</th>
-                  <th className="text-right px-4 py-3 font-medium text-steel">Actions</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">From</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Subject</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Date</th>
+                  <th className="text-left px-4 py-3 font-medium text-gray-500">Status</th>
+                  <th className="text-right px-4 py-3 font-medium text-gray-500">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-hairline" data-ui>
+              <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
                 {messages.map((msg) => (
-                  <tr key={msg.id} className={`hover:bg-frost cursor-pointer ${!msg.is_read ? 'bg-accent-50/50' : ''}`} onClick={() => { setSelectedMessage(msg); markRead(msg.id) }}>
+                  <tr key={msg.id} className={`hover:bg-gray-50 dark:hover:bg-slate-800/50 cursor-pointer ${!msg.is_read ? 'bg-emerald-50/50 dark:bg-emerald-900/10' : ''}`} onClick={() => { setSelectedMessage(msg); markRead(msg.id) }}>
                     <td className="px-4 py-3">
-                      <p className="font-medium text-carbon">{msg.name}</p>
-                      <p className="text-xs text-steel">{msg.email}</p>
+                      <p className="font-medium text-gray-900 dark:text-white">{msg.name}</p>
+                      <p className="text-xs text-gray-500">{msg.email}</p>
                     </td>
-                    <td className="px-4 py-3 text-steel">{msg.subject || '-'}</td>
-                    <td className="px-4 py-3 text-steel text-xs">{new Date(msg.created_at).toLocaleDateString()}</td>
+                    <td className="px-4 py-3 text-gray-600 dark:text-gray-400">{msg.subject || '-'}</td>
+                    <td className="px-4 py-3 text-gray-500 text-xs">{new Date(msg.created_at).toLocaleDateString()}</td>
                     <td className="px-4 py-3">
-                      <span className={`text-xs px-2 py-1 rounded-full ${msg.is_read ? 'bg-frost text-steel' : 'bg-accent-50 text-accent-700'}`}>{msg.is_read ? 'Read' : 'New'}</span>
+                      <span className={`text-xs px-2 py-1 rounded-full ${msg.is_read ? 'bg-gray-100 text-gray-600' : 'bg-emerald-100 text-emerald-700'}`}>{msg.is_read ? 'Read' : 'New'}</span>
                     </td>
                     <td className="px-4 py-3 text-right">
-                      <button onClick={(e) => { e.stopPropagation(); handleDelete(msg.id) }} className="p-2 hover:bg-frost rounded-card text-red-600"><BsTrash /></button>
+                      <button onClick={(e) => { e.stopPropagation(); handleDelete(msg.id) }} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg text-red-600"><BsTrash /></button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          {messages.length === 0 && <p className="text-center py-10 text-steel">No messages yet.</p>}
+          {messages.length === 0 && <p className="text-center py-10 text-gray-500">No messages yet.</p>}
         </div>
       )}
     </div>
@@ -956,19 +953,19 @@ function SettingsAdmin() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-carbon">Site Settings</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Site Settings</h2>
         <button onClick={handleSave} disabled={saving} className="btn-primary inline-flex items-center gap-2">
           <BsCheck /> {saving ? 'Saving...' : 'Save All'}
         </button>
       </div>
 
       {loading ? (
-        <div className="text-center py-10"><div className="animate-spin w-8 h-8 border-4 border-accent-700 border-t-transparent rounded-full mx-auto" /></div>
+        <div className="text-center py-10"><div className="animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full mx-auto" /></div>
       ) : (
         <div className="card p-6 space-y-4">
           {settings.map((setting) => (
             <div key={setting.id}>
-              <label className="block text-sm font-medium text-carbon mb-1 capitalize">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 capitalize">
                 {setting.setting_key.replace(/_/g, ' ')}
               </label>
               {setting.setting_value && setting.setting_value.length > 100 ? (
@@ -1016,18 +1013,18 @@ export default function Admin() {
   const isActive = (path: string) => location.pathname === path
 
   return (
-    <div className="min-h-svh bg-frost flex">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 flex">
       {/* Mobile Header */}
-      <div className="md:hidden fixed top-0 left-0 right-0 h-14 bg-white border-b border-hairline flex items-center px-4 z-40" data-ui>
+      <div className="md:hidden fixed top-0 left-0 right-0 h-14 bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 flex items-center px-4 z-40">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 rounded-card hover:bg-frost text-carbon transition-colors"
+          className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300 transition-colors"
         >
           <FiMenu className="text-xl" />
         </button>
         <Link to="/" className="flex items-center gap-2 ml-3">
-          <img src="/logo.jpg" alt="PharmaNest" className="h-8 w-auto rounded-card" />
-          <span className="font-semibold text-carbon text-sm">Admin</span>
+          <img src="/logo.jpg" alt="PharmaNest" className="h-8 w-auto rounded-lg" />
+          <span className="font-bold text-gray-900 dark:text-white text-sm">Admin</span>
         </Link>
       </div>
 
@@ -1040,21 +1037,21 @@ export default function Admin() {
       )}
 
       {/* Sidebar */}
-      <aside data-ui className={`w-64 bg-white border-r border-hairline flex flex-col fixed h-full z-50 transition-transform duration-300 ${
+      <aside className={`w-64 bg-white dark:bg-slate-900 border-r border-gray-200 dark:border-slate-800 flex flex-col fixed h-full z-50 transition-transform duration-300 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       } md:translate-x-0`}>
-        <div className="p-6 border-b border-hairline" data-ui>
+        <div className="p-6 border-b border-gray-100 dark:border-slate-800">
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center gap-2">
-              <img src="/logo.jpg" alt="PharmaNest" className="h-9 w-auto rounded-card" />
+              <img src="/logo.jpg" alt="PharmaNest" className="h-9 w-auto rounded-lg" />
               <div>
-                <span className="font-semibold text-carbon text-sm">PharmaNest</span>
-                <span className="block text-xs text-steel">Admin Panel</span>
+                <span className="font-bold text-gray-900 dark:text-white text-sm">PharmaNest</span>
+                <span className="block text-xs text-gray-500">Admin Panel</span>
               </div>
             </Link>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="md:hidden p-1 rounded hover:bg-frost text-steel"
+              className="md:hidden p-1 rounded hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-500"
             >
               <FiX className="text-lg" />
             </button>
@@ -1065,10 +1062,10 @@ export default function Admin() {
             <Link
               key={link.path}
               to={link.path}
-              className={`flex items-center gap-3 px-4 py-2.5 rounded-card text-sm font-medium transition-colors duration-200 ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                 isActive(link.path) || (link.path === '/admin' && location.pathname === '/admin')
-                  ? 'bg-frost text-carbon'
-                  : 'text-steel hover:text-carbon hover:bg-frost/60'
+                  ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800'
               }`}
             >
               <link.icon />
@@ -1076,8 +1073,8 @@ export default function Admin() {
             </Link>
           ))}
         </nav>
-        <div className="p-4 border-t border-hairline" data-ui>
-          <Link to="/" className="flex items-center gap-2 text-sm text-steel hover:text-carbon px-4 py-2">
+        <div className="p-4 border-t border-gray-100 dark:border-slate-800">
+          <Link to="/" className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 px-4 py-2">
             <BsArrowLeft /> Back to Site
           </Link>
           <button onClick={handleLogout} className="w-full text-left flex items-center gap-2 text-sm text-red-500 hover:text-red-700 px-4 py-2 mt-1">
